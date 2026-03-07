@@ -1,39 +1,39 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { shopDataContext } from '../context/ShopContext'
-import { useParams } from 'react-router-dom'
-import { FaStar, FaStarHalfAlt } from "react-icons/fa"
+import { useContext, useEffect, useState } from "react";
+import { shopDataContext } from "../context/ShopContext";
+import { useParams } from "react-router-dom";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import RelatedProduct from "../components/RelatedProduct";
+import Loading from "../components/Loading";
 
-
-import RelatedProduct from '../components/RelatedProduct'
-import Loading from '../components/Loading'
-
-function ProductDetail() {
-  const { productId } = useParams()
-  const { products, currency, addtoCart, loading } = useContext(shopDataContext)
-
-  const [productData, setProductData] = useState(false)
-  const [image, setImage] = useState('')
-  const [image1, setImage1] = useState('')
-  const [image2, setImage2] = useState('')
-  const [image3, setImage3] = useState('')
-  const [image4, setImage4] = useState('')
-  const [size, setSize] = useState('')
+const ProductDetail = () => {
+  const { productId } = useParams();
+  const { products, currency, addtoCart, loading } =
+    useContext(shopDataContext);
+  const [productData, setProductData] = useState(false);
+  const [image, setImage] = useState("");
+  const [image1, setImage1] = useState("");
+  const [image2, setImage2] = useState("");
+  const [image3, setImage3] = useState("");
+  const [image4, setImage4] = useState("");
+  const [size, setSize] = useState("");
 
   useEffect(() => {
     if (products && products.length > 0) {
-      const foundProduct = products.find(item => String(item._id) === String(productId))
+      const foundProduct = products.find(
+        (item) => String(item._id) === String(productId),
+      );
       if (foundProduct) {
-        setProductData(foundProduct)
-        setImage1(foundProduct.image1)
-        setImage2(foundProduct.image2)
-        setImage3(foundProduct.image3)
-        setImage4(foundProduct.image4)
-        setImage(foundProduct.image1)
+        setProductData(foundProduct);
+        setImage1(foundProduct.image1);
+        setImage2(foundProduct.image2);
+        setImage3(foundProduct.image3);
+        setImage4(foundProduct.image4);
+        setImage(foundProduct.image1);
       }
     }
-  }, [productId, products])
+  }, [productId, products]);
 
-  if (!productData) return <div className="opacity-0"></div>
+  if (!productData) return <div className="opacity-0"></div>;
 
   return (
     <div className="bg-gradient-to-l from-[#141414] to-[#0c2025] min-h-screen w-full flex flex-col items-center text-white">
@@ -42,7 +42,10 @@ function ProductDetail() {
         {/* Small Images */}
         <div className="flex lg:flex-col gap-4 justify-center ">
           {[image1, image2, image3, image4].map((img, idx) => (
-            <div key={idx} className="w-20 h-24 md:w-24 md:h-28 bg-slate-300 border border-gray-600 rounded-md overflow-hidden">
+            <div
+              key={idx}
+              className="w-20 h-24 md:w-24 md:h-28 bg-slate-300 border border-gray-600 rounded-md overflow-hidden"
+            >
               <img
                 src={img}
                 alt=""
@@ -55,13 +58,19 @@ function ProductDetail() {
 
         {/* Main Image */}
         <div className="w-72 md:w-96 lg:w-[500px] h-72 md:h-96 lg:h-[500px] border border-gray-700 rounded-md overflow-hidden shadow-lg">
-          <img src={image} alt="" className="w-full h-full object-contain rounded-md" />
+          <img
+            src={image}
+            alt=""
+            className="w-full h-full object-contain rounded-md"
+          />
         </div>
       </div>
 
       {/* --- PRODUCT INFO SECTION --- */}
       <div className="w-[90%] lg:w-[50%] flex flex-col items-start justify-start gap-4 py-6">
-        <h1 className="text-2xl md:text-4xl font-bold">{productData.name.toUpperCase()}</h1>
+        <h1 className="text-2xl md:text-4xl font-bold">
+          {productData.name.toUpperCase()}
+        </h1>
 
         {/* Stars */}
         <div className="flex items-center gap-1">
@@ -73,12 +82,15 @@ function ProductDetail() {
         </div>
 
         {/* Price */}
-        <p className="text-xl md:text-3xl font-semibold">{currency} {productData.price}</p>
+        <p className="text-xl md:text-3xl font-semibold">
+          {currency} {productData.price}
+        </p>
 
         {/* Description */}
         <p className="text-sm md:text-lg text-gray-200 leading-relaxed">
-          {productData.description} — Stylish, breathable cotton shirt with a modern slim fit. Easy to wash,
-          super comfortable, and designed for effortless style.
+          {productData.description} — Stylish, breathable cotton shirt with a
+          modern slim fit. Easy to wash, super comfortable, and designed for
+          effortless style.
         </p>
 
         {/* Sizes */}
@@ -88,10 +100,11 @@ function ProductDetail() {
             {productData.sizes.map((item, index) => (
               <button
                 key={index}
-                className={`border py-2 px-4 rounded-md transition-all duration-200 ${item === size
-                  ? 'bg-[#2f97f1] text-black font-semibold'
-                  : 'bg-slate-300 text-black hover:bg-slate-400'
-                  }`}
+                className={`border py-2 px-4 rounded-md transition-all duration-200 ${
+                  item === size
+                    ? "bg-[#2f97f1] text-black font-semibold"
+                    : "bg-slate-300 text-black hover:bg-slate-400"
+                }`}
                 onClick={() => setSize(item)}
               >
                 {item}
@@ -126,10 +139,11 @@ function ProductDetail() {
 
         <div className="w-full md:w-[80%] bg-[#3336397c] border border-slate-600 rounded-md text-gray-200 text-sm md:text-lg p-4 md:p-6">
           <p>
-            Upgrade your wardrobe with this stylish slim-fit cotton shirt, available now on OneCart. Crafted
-            from breathable, high-quality fabric, it offers all-day comfort and effortless style. Easy to
-            maintain and perfect for any setting, this shirt is a must-have essential for those who value both
-            fashion and function.
+            Upgrade your wardrobe with this stylish slim-fit cotton shirt,
+            available now on OneCart. Crafted from breathable, high-quality
+            fabric, it offers all-day comfort and effortless style. Easy to
+            maintain and perfect for any setting, this shirt is a must-have
+            essential for those who value both fashion and function.
           </p>
         </div>
 
@@ -142,7 +156,7 @@ function ProductDetail() {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductDetail
+export default ProductDetail;
