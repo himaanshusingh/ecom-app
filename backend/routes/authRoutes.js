@@ -1,11 +1,6 @@
 import express from "express";
-import {
-  adminLogin,
-  googleLogin,
-  login,
-  logout,
-  registration,
-} from "../controllers/authController.js";
+import { adminLogin, googleLogin } from "../controllers/authController.js";
+import { login, logout, registration } from "../controllers/authController.js";
 
 const authRouter = express.Router();
 

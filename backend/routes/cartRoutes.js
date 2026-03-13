@@ -1,10 +1,7 @@
 import express from "express";
 import { isAuth } from "../middlewares/isAuth.js";
-import {
-  addtoCart,
-  getUserCart,
-  UpdateCart,
-} from "../controllers/cartController.js";
+import { addtoCart } from "../controllers/cartController.js";
+import { getUserCart, UpdateCart } from "../controllers/cartController.js";
 
 const cartRouter = express.Router();
 

@@ -1,15 +1,19 @@
-import Order from "../models/orderModel.js";
-import User from "../models/userModel.js";
+// External Modules :-
 import razorpay from "razorpay";
 import dotenv from "dotenv";
+
+// Local Modules :-
+import Order from "../models/orderModel.js";
+import User from "../models/userModel.js";
+
 dotenv.config();
 const currency = "inr";
 const razorpayInstance = new razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || "asdgkjlksad",
   key_secret: process.env.RAZORPAY_KEY_SECRET || "asdklfjlksdf",
 });
-//user
 
+// user :-
 export const placeOrder = async (req, res) => {
   try {
     const { items, amount, address } = req.body;
@@ -58,11 +62,9 @@ export const placeOrderRazorpay = async (req, res) => {
       currency: currency.toUpperCase(),
       receipt: newOrder._id.toString(),
     };
+
     await razorpayInstance.orders.create(options, (error, order) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).json(error);
-      }
+      if (error) return res.status(500).json(error);
       res.status(200).json(order);
     });
   } catch (error) {
@@ -100,8 +102,7 @@ export const userOrders = async (req, res) => {
   }
 };
 
-// admin
-
+// admin :-
 export const allOrders = async (req, res) => {
   try {
     const orders = await Order.find({});
@@ -115,7 +116,6 @@ export const allOrders = async (req, res) => {
 export const updateStatus = async (req, res) => {
   try {
     const { orderId, status } = req.body;
-
     await Order.findByIdAndUpdate(orderId, { status });
     return res.status(201).json({ message: "Status Updated" });
   } catch (error) {

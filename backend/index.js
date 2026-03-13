@@ -13,9 +13,6 @@ import cartRouter from "./routes/cartRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
 
 dotenv.config();
-
-const port = process.env.PORT || 5000;
-
 const app = express();
 
 app.use(express.json());
@@ -33,9 +30,7 @@ app.use(
   }),
 );
 
-app.get("/", (req, res) => {
-  res.send("Backend is running successfully 🚀");
-});
+app.get("/", (req, res) => res.send("Backend is running successfully 🚀"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
@@ -43,6 +38,7 @@ app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
+const port = process.env.PORT;
 app.listen(port, async () => {
   await connectDb();
   console.log("server running...");

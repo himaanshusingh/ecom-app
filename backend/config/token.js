@@ -1,23 +1,23 @@
 import jwt from "jsonwebtoken";
 
-export const genToken = async (userId) => {
+export async function genToken(userId) {
   try {
-    let token = await jwt.sign({ userId }, process.env.JWT_SECRET, {
+    const token = await jwt.sign({ userId }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
     return token;
   } catch (error) {
     console.log("error", error);
   }
-};
+}
 
-export const genToken1 = async (email) => {
+export async function genToken1(email) {
   try {
-    let token = await jwt.sign({ email }, process.env.JWT_SECRET, {
+    const token = await jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
     return token;
   } catch (error) {
     console.log("error", error);
   }
-};
+}
