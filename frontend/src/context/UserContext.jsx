@@ -1,14 +1,16 @@
+import axios from "axios";
 import { useState, useEffect, createContext, useContext } from "react";
 import { authDataContext } from "./AuthContext";
-import axios from "axios";
 
 export const userDataContext = createContext();
 
-const UserContext = ({ children }) => {
-  let { serverUrl } = useContext(authDataContext);
-  let [user, setUser] = useState("");
+export default function UserContext({ children }) {
+  const { serverUrl } = useContext(authDataContext);
+  const [user, setUser] = useState("");
 
-  useEffect(() => getCurrentUser(), []);
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
 
   async function getCurrentUser() {
     try {
@@ -22,7 +24,7 @@ const UserContext = ({ children }) => {
     }
   }
 
-  let value = { user, setUser, getCurrentUser };
+  const value = { user, setUser, getCurrentUser };
 
   return (
     <div>
@@ -31,6 +33,4 @@ const UserContext = ({ children }) => {
       </userDataContext.Provider>
     </div>
   );
-};
-
-export default UserContext;
+}

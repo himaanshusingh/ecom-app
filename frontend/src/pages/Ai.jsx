@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import ai from "../assets/pictures/ai.png";
 import open from "../assets/pictures/open.mp3";
 import { shopDataContext } from "../context/ShopContext";
-import { useNavigate } from "react-router-dom";
 
-const Ai = () => {
+export default function Ai() {
   let { showSearch, setShowSearch } = useContext(shopDataContext);
   let navigate = useNavigate();
   let [activeAi, setActiveAi] = useState(false);
@@ -95,7 +96,7 @@ const Ai = () => {
 
   return (
     <div
-      className="fixed lg:bottom-[20px] md:bottom-[40px] bottom-[80px] left-[2%] "
+      className="fixed lg:bottom-5 md:bottom-10 bottom-20 left-[2%] "
       onClick={() => {
         recognition.start();
         openingSound.play();
@@ -105,13 +106,11 @@ const Ai = () => {
       <img
         src={ai}
         alt=""
-        className={`w-[100px] cursor-pointer ${activeAi ? "translate-x-[10%] translate-y-[-10%] scale-125 " : "translate-x-[0] translate-y-[0] scale-100"} transition-transform`}
+        className={`w-12.5 cursor-pointer ${activeAi ? "translate-x-[10%] translate-y-[-10%] scale-125 " : "translate-x-0 translate-y-0 scale-100"} transition-transform`}
         style={{
           filter: ` ${activeAi ? "drop-shadow(0px 0px 30px #00d2fc)" : "drop-shadow(0px 0px 20px black)"}`,
         }}
       />
     </div>
   );
-};
-
-export default Ai;
+}

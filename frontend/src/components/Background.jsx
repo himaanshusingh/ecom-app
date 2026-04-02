@@ -3,8 +3,9 @@ import back2 from "../assets/pictures/back2.jpg";
 import back3 from "../assets/pictures/back3.jpg";
 import back4 from "../assets/pictures/back4.jpg";
 
-const Background = ({ heroCount }) => {
-  const className = "w-[100%] h-[100%] float-left overflow-auto object-cover";
+export default function Background({ heroCount }) {
+  const className = "w-full h-full float-left overflow-auto object-cover";
+
   if (heroCount === 0) {
     return <img src={back2} alt="" className={className} />;
   } else if (heroCount === 1) {
@@ -14,6 +15,4 @@ const Background = ({ heroCount }) => {
   } else if (heroCount === 3) {
     return <img src={back4} alt="" className={className} />;
   }
-};
-
-export default Background;
+}

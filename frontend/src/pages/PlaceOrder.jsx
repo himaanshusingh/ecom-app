@@ -1,14 +1,14 @@
+import axios from "axios";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { authDataContext } from "../context/AuthContext";
 import { shopDataContext } from "../context/ShopContext";
-import { useNavigate } from "react-router-dom";
 import Title from "../components/Title";
 import CartTotal from "./CartTotal";
 import razorpay from "../assets/pictures/Razorpay.jpg";
-import axios from "axios";
 import Loading from "../components/Loading";
 
-const PlaceOrder = () => {
+export default function PlaceOrder() {
   let [method, setMethod] = useState("cod");
   let navigate = useNavigate();
   const { cartItem, setCartItem, getCartAmount, delivery_fee, products } =
@@ -128,20 +128,20 @@ const PlaceOrder = () => {
   }
 
   return (
-    <div className="w-[100vw] min-h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-center justify-center flex-col md:flex-row gap-[50px]  relative">
-      <div className="lg:w-[50%] w-[100%] h-[100%] flex items-center justify-center  lg:mt-[0px] mt-[90px] ">
+    <div className="w-screen min-h-screen bg-linear-to-l from-[#141414] to-[#0c2025] flex items-center justify-center flex-col md:flex-row gap-12.5  relative">
+      <div className="lg:w-[50%] w-full h-full flex items-center justify-center  lg:mt-0 mt-22.5">
         <form
           onSubmit={handleSubmit}
-          className="lg:w-[70%] w-[95%] lg:h-[70%] h-[100%]"
+          className="lg:w-[70%] w-[95%] lg:h-[70%] h-full"
         >
-          <div className="py-[10px]">
+          <div className="py-2.5">
             <Title text1={"DELIVERY"} text2={"INFORMATION"} />
           </div>
-          <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
+          <div className="w-full h-17.5 flex items-center justify-between px-2.5">
             <input
               type="text"
               placeholder="First name"
-              className="w-[48%] h-[50px] rounded-md bg-slate-700 placeholder:text-[white] text-[18px] px-[20px] shadow-sm shadow-[#343434]"
+              className="w-[48%] h-12.5 rounded-md bg-slate-700 placeholder:text-[white] text-[18px] px-5 shadow-sm shadow-[#343434]"
               required
               onChange={handleChange}
               name="firstName"
@@ -151,7 +151,7 @@ const PlaceOrder = () => {
             <input
               type="text"
               placeholder="Last name"
-              className="w-[48%] h-[50px] rounded-md shadow-sm shadow-[#343434] bg-slate-700 placeholder:text-[white] text-[18px] px-[20px]"
+              className="w-[48%] h-12.5 rounded-md shadow-sm shadow-[#343434] bg-slate-700 placeholder:text-[white] text-[18px] px-5"
               required
               onChange={handleChange}
               name="lastName"
@@ -159,33 +159,33 @@ const PlaceOrder = () => {
             />
           </div>
 
-          <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
+          <div className="w-full h-17.5 flex items-center justify-between px-2.5">
             <input
               type="email"
               placeholder="Email address"
-              className="w-[100%] h-[50px] rounded-md shadow-sm shadow-[#343434] bg-slate-700 placeholder:text-[white] text-[18px] px-[20px]"
+              className="w-full h-12.5 rounded-md shadow-sm shadow-[#343434] bg-slate-700 placeholder:text-[white] text-[18px] px-5"
               required
               onChange={handleChange}
               name="email"
               value={formData.email}
             />
           </div>
-          <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
+          <div className="w-full h-17.5 flex items-center justify-between px-2.5">
             <input
               type="text"
               placeholder="Street"
-              className="w-[100%] h-[50px] rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-[20px]"
+              className="w-full h-12.5 rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-5"
               required
               onChange={handleChange}
               name="street"
               value={formData.street}
             />
           </div>
-          <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
+          <div className="w-full h-17.5 flex items-center justify-between px-2.5">
             <input
               type="text"
               placeholder="City"
-              className="w-[48%] h-[50px] rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-[20px]"
+              className="w-[48%] h-12.5 rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-5"
               required
               onChange={handleChange}
               name="city"
@@ -194,18 +194,18 @@ const PlaceOrder = () => {
             <input
               type="text"
               placeholder="State"
-              className="w-[48%] h-[50px] rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-[20px]"
+              className="w-[48%] h-12.5 rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-5"
               required
               onChange={handleChange}
               name="state"
               value={formData.state}
             />
           </div>
-          <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
+          <div className="w-full h-17.5 flex items-center justify-between px-2.5">
             <input
               type="text"
               placeholder="Pincode"
-              className="w-[48%] h-[50px] rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-[20px]"
+              className="w-[48%] h-12.5 rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-5"
               required
               onChange={handleChange}
               name="pinCode"
@@ -214,18 +214,18 @@ const PlaceOrder = () => {
             <input
               type="text"
               placeholder="Country"
-              className="w-[48%] h-[50px] rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-[20px]"
+              className="w-[48%] h-12.5 rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-5"
               required
               onChange={handleChange}
               name="country"
               value={formData.country}
             />
           </div>
-          <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
+          <div className="w-full h-17.5 flex items-center justify-between px-2.5">
             <input
               type="text"
               placeholder="Phone"
-              className="w-[100%] h-[50px] rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-[20px]"
+              className="w-full h-12.5 rounded-md bg-slate-700 shadow-sm shadow-[#343434] placeholder:text-[white] text-[18px] px-5"
               required
               onChange={handleChange}
               name="phone"
@@ -235,33 +235,33 @@ const PlaceOrder = () => {
           <div>
             <button
               type="submit"
-              className="text-[18px] active:bg-slate-500 cursor-pointer bg-[#3bcee848] py-[10px] px-[50px] rounded-2xl text-white flex items-center justify-center gap-[20px] absolute lg:right-[20%] bottom-[10%] right-[35%] border-[1px] border-[#80808049] ml-[30px] mt-[20px]"
+              className="text-[18px] active:bg-slate-500 cursor-pointer bg-[#3bcee848] py-2.5 px-12.5 rounded-2xl text-white flex items-center justify-center gap-5 absolute lg:right-[20%] bottom-[10%] right-[35%] border border-[#80808049] ml-7.5 mt-5"
             >
               {loading ? <Loading /> : "PLACE ORDER"}
             </button>
           </div>
         </form>
       </div>
-      <div className="lg:w-[50%] w-[100%] min-h-[100%] flex items-center justify-center gap-[30px] ">
-        <div className="lg:w-[70%] w-[90%] lg:h-[70%] h-[100%]  flex items-center justify-center gap-[10px] flex-col">
+      <div className="lg:w-[50%] w-full min-h-full flex items-center justify-center gap-7.5 ">
+        <div className="lg:w-[70%] w-[90%] lg:h-[70%] h-full  flex items-center justify-center gap-2.5 flex-col">
           <CartTotal />
-          <div className="py-[10px]">
+          <div className="py-2.5">
             <Title text1={"PAYMENT"} text2={"METHOD"} />
           </div>
-          <div className="w-[100%] h-[20vh] lg:h-[150px] flex items-start mt-[20px] lg:mt-[0px] justify-center gap-[50px]">
+          <div className="w-full h-[20vh] lg:h-37.5 flex items-start mt-5 lg:mt-0 justify-center gap-12.5">
             <button
               onClick={() => setMethod("razorpay")}
-              className={`w-[150px] h-[50px] rounded-sm  ${method === "razorpay" ? "border-[5px] border-blue-900 rounded-sm" : ""}`}
+              className={`w-37.5 h-12.5 rounded-sm  ${method === "razorpay" ? "border-[5px] border-blue-900 rounded-sm" : ""}`}
             >
               <img
                 src={razorpay}
-                className="w-[100%] h-[100%] object-fill rounded-sm "
+                className="w-full h-full object-fill rounded-sm "
                 alt=""
               />
             </button>
             <button
               onClick={() => setMethod("cod")}
-              className={`w-[180px] h-[50px] bg-gradient-to-t from-[#95b3f8] to-[white] text-[14px] px-[0px] rounded-sm text-[#332f6f] font-bold ${method === "cod" ? "border-[5px] border-blue-900 rounded-sm" : ""}`}
+              className={`w-45 h-12.5 bg-linear-to-t from-[#95b3f8] to-[white] text-[14px] px-0 rounded-sm text-[#332f6f] font-bold ${method === "cod" ? "border-[5px] border-blue-900 rounded-sm" : ""}`}
             >
               CASH ON DELIVERY
             </button>
@@ -270,6 +270,4 @@ const PlaceOrder = () => {
       </div>
     </div>
   );
-};
-
-export default PlaceOrder;
+}

@@ -3,13 +3,9 @@ import jwt from "jsonwebtoken";
 export const adminAuth = async (req, res, next) => {
   try {
     let { token } = req.cookies;
-    if (!token) {
-      return res.status(400).json({ message: `token is not found` });
-    }
+    if (!token) return res.status(400).json({ message: `token is not found` });
     let verifyToken = jwt.verify(token, process.env.JWT_SECRET);
-    if (!verifyToken) {
-      return res.status(400).json({ message: `token is not verfied` });
-    }
+    if (!verifyToken) return res.status(400).json({ message: `token is not verfied` });
     req.adminemail = process.env.ADMIN_EMAIL;
     next();
   } catch (error) {

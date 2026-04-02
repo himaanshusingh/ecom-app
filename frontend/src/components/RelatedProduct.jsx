@@ -22,11 +22,11 @@ const RelatedProduct = ({ category, subCategory, currentProductId }) => {
   }, [products, category, subCategory, currentProductId]);
 
   return (
-    <div className="my-[130px] md:my-[40px]  md:px-[60px] ">
-      <div className="ml-[20px] lg:ml-[80px]">
+    <div className="my-32.5 md:my-10  md:px-15 ">
+      <div className="ml-5 lg:ml-20">
         <Title text1={"RELATED"} text2={"PRODUCTS"} />
       </div>
-      <div className="w-[100%]  mt-[30px] flex items-center justify-center flex-wrap gap-[50px]">
+      <div className="w-full  mt-7.5 flex items-center justify-center flex-wrap gap-12.5">
         {related.map(({ _id, name, price, image1 }, index) => (
           <Card key={index} id={_id} name={name} price={price} image={image1} />
         ))}

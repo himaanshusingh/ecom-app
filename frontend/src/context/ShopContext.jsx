@@ -1,11 +1,11 @@
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { authDataContext } from "./AuthContext";
 import { userDataContext } from "./UserContext";
-import axios from "axios";
 
 export const shopDataContext = createContext();
 
-const ShopContext = ({ children }) => {
+export default function ShopContext({ children }) {
   let { serverUrl } = useContext(authDataContext);
   let [products, setProducts] = useState([]);
   let [search, setSearch] = useState("");
@@ -15,7 +15,8 @@ const ShopContext = ({ children }) => {
   let [loading, setLoading] = useState(false);
   let currency = "₹";
   let delivery_fee = 40;
-  const getProducts = async () => {
+
+  async function getProducts() {
     try {
       let result = await axios.get(serverUrl + "/api/product/list");
       console.log(result.data);
@@ -23,7 +24,7 @@ const ShopContext = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   async function addtoCart(itemId, size) {
     if (!size) {
@@ -65,8 +66,8 @@ const ShopContext = ({ children }) => {
       setCartItem(result.data);
     } catch (error) {
       console.log(error);
-    } // prettier-ignore
-  }
+    }
+  } // prettier-ignore
 
   async function updateQuantity(itemId, size, quantity) {
     let cartData = structuredClone(cartItem);
@@ -115,18 +116,18 @@ const ShopContext = ({ children }) => {
     return totalAmount;
   }
 
-  useEffect(() => getProducts(), []);
-  useEffect(() => getUserCart(), []);
+  useEffect(() => {
+    getProducts();
+    getUserCart();
+  }, []);
 
-  let value = { products, setProducts, currency, delivery_fee, getProducts, search, setSearch, showSearch, setShowSearch, addtoCart, getCartCount, setCartItem, updateQuantity, getCartAmount, loading, cartItem }; // prettier-ignore
+  const value = { products, setProducts, currency, delivery_fee, getProducts, search, setSearch, showSearch, setShowSearch, addtoCart, getCartCount, setCartItem, updateQuantity, getCartAmount, loading, cartItem }; // prettier-ignore
 
   return (
-    <div>
+    <>
       <shopDataContext.Provider value={value}>
         {children}
       </shopDataContext.Provider>
-    </div>
+    </>
   );
-};
-
-export default ShopContext;
+}

@@ -1,17 +1,15 @@
 import BestSeller from "../components/BestSeller";
 import LatestCollections from "../components/LatestCollections";
 
-const Product = () => {
+export default function Product() {
   return (
-    <div className="w-[100vw] min-h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-center justify-start flex-col py-[20px]">
-      <div className="w-[100%] min-h-[70px] flex items-center justify-center gap-[10px]  flex-col ">
+    <div className="w-screen min-h-screen bg-linear-to-l from-[#141414] to-[#0c2025] flex items-center justify-start flex-col py-5">
+      <div className="w-full min-h-17.5 flex items-center justify-center gap-2.5  flex-col ">
         <LatestCollections />
       </div>
-      <div className="w-[100%] min-h-[70px] flex items-center justify-center gap-[10px]  flex-col ">
+      <div className="w-full min-h-17.5 flex items-center justify-center gap-2.5  flex-col ">
         <BestSeller />
       </div>
     </div>
   );
-};
-
-export default Product;
+}

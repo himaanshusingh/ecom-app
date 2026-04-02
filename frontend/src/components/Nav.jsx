@@ -1,28 +1,35 @@
+import axios from "axios";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { shopDataContext } from "../context/ShopContext";
-import { userDataContext } from "../context/UserContext";
-import { authDataContext } from "../context/AuthContext";
 import { BsFillSearchHeartFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { IoMdCart, IoMdHome } from "react-icons/io";
 import { BiCollection } from "react-icons/bi";
 import { MdPermContactCalendar } from "react-icons/md";
-import axios from "axios";
+
 import logo from "../assets/logo.jpg";
+import { shopDataContext } from "../context/ShopContext";
+import { userDataContext } from "../context/UserContext";
+import { authDataContext } from "../context/AuthContext";
 
-const Nav = () => {
-  let [showProfile, setShowProfile] = useState(false);
-  let { user, setUser, getCurrentUser } = useContext(userDataContext);
-  let { serverUrl } = useContext(authDataContext);
+const NAV_LINKS = [
+  { label: "HOME", path: "/" },
+  { label: "COLLECTIONS", path: "/collections" },
+  { label: "ABOUT", path: "/about" },
+  { label: "CONTACT", path: "/contact" },
+];
 
-  let { search, showSearch, setSearch, setShowSearch, getCartCount } =
+export default function Nav() {
+  const [showProfile, setShowProfile] = useState(false);
+  const { user, setUser, getCurrentUser } = useContext(userDataContext);
+  const { serverUrl } = useContext(authDataContext);
+  const { search, showSearch, setSearch, setShowSearch, getCartCount } =
     useContext(shopDataContext);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function handleLogout() {
     try {
-      let result = await axios.get(serverUrl + "/api/auth/logout", {
+      const result = await axios.get(serverUrl + "/api/auth/logout", {
         withCredentials: true,
       });
       console.log(result.data);
@@ -32,163 +39,187 @@ const Nav = () => {
     }
   }
 
+  const cartCount = getCartCount();
+
   return (
-    <div className="w-[100vw] h-[70px] bg-slate-100 fixed top-0 flex items-center justify-between py-[30px] px-[30px] shadow-md shadow-black">
-      <div className="w-[20%] lg:w-[30%] flex items-center justify-start gap-[10px] ">
-        <img className="w-[70px] rounded-lg " src={logo} alt="" />
-        <h1 className="text-[25px] text-black ">coCart</h1>
-      </div>
+    <>
+      {/* ── Top Navbar ── */}
+      <header className="fixed top-0 inset-x-0 z-50 h-16 bg-slate-100 shadow-md shadow-black/10 flex items-center justify-between px-5 md:px-8">
 
-      <div className="w-[50%] lg:w-[40%] hidden md:flex">
-        <ul className="flex items-center justify-around gap-[20px] text-white">
-          <li
-            className="text-[15px] hover:bg-slate-400 bg-black rounded-2xl cursor-pointer py-[10px] px-[10px]"
-            onClick={() => navigate("/")}
-          >
-            HOME
-          </li>
-          <li
-            className="text-[15px] hover:bg-slate-400 bg-black rounded-2xl cursor-pointer py-[10px] px-[10px]"
-            onClick={() => navigate("/collections")}
-          >
-            COLLECTIONS
-          </li>
-          <li
-            className="text-[15px] hover:bg-slate-400 bg-black rounded-2xl cursor-pointer py-[10px] px-[10px]"
-            onClick={() => navigate("/about")}
-          >
-            ABOUT
-          </li>
-          <li
-            className="text-[15px] hover:bg-slate-400 bg-black rounded-2xl cursor-pointer py-[10px] px-[10px]"
-            onClick={() => navigate("/contact")}
-          >
-            CONTACT PAGE
-          </li>
-        </ul>
-      </div>
+        {/* Logo */}
+        <div
+          className="flex items-center gap-2.5 cursor-pointer"
+          onClick={() => navigate("/")}
+        >
+          <img
+            src={logo}
+            alt="coCart logo"
+            className="h-10 w-10 rounded-lg"
+          />
+          <span className="text-xl font-semibold text-black tracking-tight">
+            coCart
+          </span>
+        </div>
 
-      <div className="w-[30%]   flex items-center justify-end gap-[20px] right-0">
-        {!showSearch && (
-          <BsFillSearchHeartFill
-            className="text-black h-[38px] w-[38px] cursor-pointer"
+        {/* Desktop Nav Links */}
+        <nav className="hidden md:flex items-center gap-1">
+          {NAV_LINKS.map(({ label, path }) => (
+            <button
+              key={path}
+              onClick={() => navigate(path)}
+              className="text-sm font-medium text-white bg-black hover:bg-slate-600 rounded-full px-4 py-2 transition-colors duration-150"
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-4">
+          {/* Search Toggle */}
+          <button
+            aria-label="Toggle search"
             onClick={() => {
               setShowSearch((prev) => !prev);
-              navigate("/collections");
+              if (!showSearch) navigate("/collections");
             }}
-          />
-        )}
-        {showSearch && (
-          <BsFillSearchHeartFill
-            className="text-black h-[38px] w-[38px] cursor-pointer"
-            onClick={() => setShowSearch((prev) => !prev)}
-          />
-        )}
-
-        {!user && (
-          <CgProfile
-            className="text-black h-[38px] w-[38px]"
-            onClick={() => setShowProfile((prev) => !prev)}
-          />
-        )}
-        {user && (
-          <div
-            className="w-[30px] h-[30px] bg-black text-white rounded-full flex items-center justify-center cursor-pointer"
-            onClick={() => setShowProfile((prev) => !prev)}
+            className="text-black hover:text-slate-600 transition-colors"
           >
-            {user?.name.slice(0, 1)}
+            <BsFillSearchHeartFill className="w-6 h-6" />
+          </button>
+
+          {/* Profile Avatar / Icon */}
+          {user ? (
+            <button
+              aria-label="Open profile menu"
+              onClick={() => setShowProfile((prev) => !prev)}
+              className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-sm font-medium hover:bg-slate-700 transition-colors"
+            >
+              {user.name.slice(0, 1).toUpperCase()}
+            </button>
+          ) : (
+            <button
+              aria-label="Open profile menu"
+              onClick={() => setShowProfile((prev) => !prev)}
+              className="text-black hover:text-slate-600 transition-colors"
+            >
+              <CgProfile className="w-6 h-6" />
+            </button>
+          )}
+
+          {/* Desktop Cart */}
+          <div className="relative hidden md:block">
+            <button
+              aria-label="View cart"
+              onClick={() => navigate("/cart")}
+              className="text-black hover:text-slate-600 transition-colors"
+            >
+              <IoMdCart className="w-6 h-6" />
+            </button>
+            {cartCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 min-w-4.5 h-4.5 bg-black text-white text-[10px] font-semibold rounded-full flex items-center justify-center px-1 pointer-events-none">
+                {cartCount}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Search Dropdown */}
+        {showSearch && (
+          <div className="absolute inset-x-0 top-full h-18 bg-sky-50/90 backdrop-blur-sm flex items-center justify-center border-t border-slate-200">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              autoFocus
+              className="w-full max-w-lg h-10 rounded-full bg-slate-700 placeholder:text-slate-300 text-white text-sm px-5 outline-none focus:ring-2 focus:ring-white/40 transition"
+            />
           </div>
         )}
-        <IoMdCart
-          className="text-black h-[38px] w-[38px] hidden md:block"
-          onClick={() => navigate("/cart")}
-        />
-        <p className="absolute w-[18px] h-[18px] items-center justify-center bg-black rounded-lg py-[2px] px-[5px]  text-[9px] top-[10px] right-[25px] text-white hidden md:block">
-          {getCartCount()}
-        </p>
-      </div>
-      {showSearch && (
-        <div className="w-[100%] h-[80px] bg-[#d8f6f9dd] flex items-center justify-center left-0 right-0 top-[100%] absolute">
-          <input
-            type="text"
-            className="w-[50%] h-[60%] rounded-2xl bg-slate-600 placeholder:text-white text-white text-[18px] px-[30px]"
-            placeholder="Search here"
-            onChange={(e) => setSearch(e.target.value)}
-            value={search}
-          />
-        </div>
-      )}
 
-      {showProfile && (
-        <div className="absolute w-[200px] h-[180px] bg-[#000000d7] rounded-md right-[4%] top-[110%] border-[1px] border-[#aaa9a9] z-10 ">
-          <ul className="w-[100%] h-[100%] flex flex-col items-center justify-around py-[10px] text-[16px] text-white">
-            {!user && (
-              <li
-                className="cursor-pointer"
-                onClick={() => {
-                  navigate("/login");
-                  setShowProfile(false);
-                }}
-              >
-                Login
+        {/* Profile Dropdown */}
+        {showProfile && (
+          <div className="absolute right-4 top-[calc(100%+8px)] w-44 bg-black/90 backdrop-blur-sm rounded-xl border border-white/10 shadow-xl z-50 overflow-hidden">
+            <ul className="flex flex-col py-2 text-sm text-white">
+              {!user ? (
+                <li>
+                  <button
+                    onClick={() => { navigate("/login"); setShowProfile(false); }}
+                    className="w-full text-left px-4 py-2.5 hover:bg-white/10 transition-colors"
+                  >
+                    Login
+                  </button>
+                </li>
+              ) : (
+                <li>
+                  <button
+                    onClick={() => { handleLogout(); setShowProfile(false); setUser(""); }}
+                    className="w-full text-left px-4 py-2.5 hover:bg-white/10 transition-colors"
+                  >
+                    Logout
+                  </button>
+                </li>
+              )}
+              <li>
+                <button
+                  onClick={() => { navigate("/order"); setShowProfile(false); }}
+                  className="w-full text-left px-4 py-2.5 hover:bg-white/10 transition-colors"
+                >
+                  Orders
+                </button>
               </li>
-            )}
-            {user && (
-              <li
-                className="cursor-pointer"
-                onClick={() => {
-                  handleLogout();
-                  setShowProfile(false);
-                  setUser("");
-                }}
-              >
-                Logout
+              <li>
+                <button
+                  onClick={() => { navigate("/about"); setShowProfile(false); }}
+                  className="w-full text-left px-4 py-2.5 hover:bg-white/10 transition-colors"
+                >
+                  About
+                </button>
               </li>
-            )}
-            <li
-              onClick={() => {
-                (navigate("/order"), setShowProfile(false));
-              }}
-            >
-              orders
-            </li>
-            <li
-              onClick={() => {
-                navigate("/about");
-                setShowProfile(false);
-              }}
-            >
-              About
-            </li>
-          </ul>
-        </div>
-      )}
-      <div className="w-[100vw] h-[70px] bottom-0 bg-black flex items-center justify-between fixed left-0 py-[10px] px-[10px] md:hidden">
-        <button className="text-white flex flex-col items-center justify-center gap-[2px]">
-          <IoMdHome className="w-[20px] h-[20px] text-white md:hidden" />
+            </ul>
+          </div>
+        )}
+      </header>
+
+      {/* ── Mobile Bottom Tab Bar ── */}
+      <nav className="fixed bottom-0 inset-x-0 h-16 bg-black flex items-center justify-around px-4 md:hidden z-50">
+        <button
+          onClick={() => navigate("/")}
+          className="flex flex-col items-center gap-1 text-white/70 hover:text-white active:text-white transition-colors text-[11px]"
+        >
+          <IoMdHome className="w-5 h-5" />
           Home
         </button>
-        <button className="text-white flex flex-col items-center justify-center gap-[2px]">
-          <BiCollection className="w-[20px] h-[20px] text-white md:hidden" />
+        <button
+          onClick={() => navigate("/collections")}
+          className="flex flex-col items-center gap-1 text-white/70 hover:text-white active:text-white transition-colors text-[11px]"
+        >
+          <BiCollection className="w-5 h-5" />
           Collections
         </button>
-        <button className="text-white flex flex-col items-center justify-center gap-[2px]">
-          <MdPermContactCalendar className="w-[20px] h-[20px] text-white md:hidden" />
-          contact
+        <button
+          onClick={() => navigate("/contact")}
+          className="flex flex-col items-center gap-1 text-white/70 hover:text-white active:text-white transition-colors text-[11px]"
+        >
+          <MdPermContactCalendar className="w-5 h-5" />
+          Contact
         </button>
-        <button className="text-white flex flex-col items-center justify-center gap-[2px]">
-          <IoMdCart
-            className="w-[20px] h-[20px] text-white md:hidden"
+        <div className="relative">
+          <button
             onClick={() => navigate("/cart")}
-          />
-          Cart
-        </button>
-        <p className="absolute w-[18px] h-[18px] flex items-center justify-center bg-white px-[5px] py-[2px] text-black font-semibold  rounded-full text-[9px] top-[8px] right-[18px]">
-          {getCartCount()}
-        </p>
-      </div>
-    </div>
+            className="flex flex-col items-center gap-1 text-white/70 hover:text-white active:text-white transition-colors text-[11px]"
+          >
+            <IoMdCart className="w-5 h-5" />
+            Cart
+          </button>
+          {cartCount > 0 && (
+            <span className="absolute -top-1 -right-2 min-w-4 h-4 bg-white text-black text-[9px] font-bold rounded-full flex items-center justify-center px-1 pointer-events-none">
+              {cartCount}
+            </span>
+          )}
+        </div>
+      </nav>
+    </>
   );
-};
-
-export default Nav;
+}

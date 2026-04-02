@@ -9,8 +9,8 @@ import User from "../models/userModel.js";
 dotenv.config();
 const currency = "inr";
 const razorpayInstance = new razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || "asdgkjlksad",
-  key_secret: process.env.RAZORPAY_KEY_SECRET || "asdklfjlksdf",
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 // user :-

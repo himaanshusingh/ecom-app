@@ -7,15 +7,15 @@ import OurPolicy from "../components/OurPolicy";
 import NewLetter from "../components/NewLetter";
 import Footer from "../components/Footer";
 
-const Home = () => {
-  let heroData = [
+export default function Home() {
+  const heroData = [
     { text1: "30% OFF Limited Offer", text2: "Style that" },
     { text1: "Discover the Best of Bold Fashion", text2: "Limited Time Only!" },
     { text1: "Explore Our Best Collection ", text2: "Shop Now!" },
     { text1: "Choose your Perfect Fasion Fit", text2: "Now on Sale!" },
   ];
 
-  let [heroCount, setHeroCount] = useState(0);
+  const [heroCount, setHeroCount] = useState(0);
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -25,8 +25,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="overflow-x-hidden relative top-[70px]">
-      <div className=" w-[100vw] lg:h-[100vh] md:h-[50vh] sm:h-[30vh]   bg-gradient-to-l from-[#141414] to-[#0c2025] ">
+    <div className="overflow-x-hidden relative top-17.5">
+      <div className=" w-screen lg:h-screen md:h-[50vh] sm:h-[30vh] bg-linear-to-l from-[#141414] to-[#0c2025] ">
         <Nav />
         <Background heroCount={heroCount} />
         <Hero
@@ -35,13 +35,10 @@ const Home = () => {
           heroData={heroData[heroCount]}
         />
       </div>
-
       <Product />
       <OurPolicy />
       <NewLetter />
       <Footer />
     </div>
   );
-};
-
-export default Home;
+}

@@ -126,7 +126,7 @@ export const adminLogin = async (req, res) => {
       });
       return res.status(200).json(token);
     }
-    
+
     return res.status(400).json({ message: "invalid credentials" });
   } catch (error) {
     res.status(500).json({ message: `Admin login error ${error}` });

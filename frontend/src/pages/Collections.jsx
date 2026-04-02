@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { shopDataContext } from "../context/ShopContext";
 import { FaChevronRight } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
+
+import { shopDataContext } from "../context/ShopContext";
 import Title from "../components/Title";
 import Card from "../components/Card";
 
-const Collections = () => {
+export default function Collections() {
   let [showFilter, setShowFilter] = useState(false);
   let { products, search, showSearch } = useContext(shopDataContext);
   let [filterProduct, setFilterProduct] = useState([]);
@@ -57,7 +58,6 @@ const Collections = () => {
       case "low-high":
         setFilterProduct(fbCopy.sort((a, b) => a.price - b.price));
         break;
-
       case "high-low":
         setFilterProduct(fbCopy.sort((a, b) => b.price - a.price));
         break;
@@ -72,12 +72,12 @@ const Collections = () => {
   useEffect(() => applyFilter(), [category, subCategory, search, showSearch]);
 
   return (
-    <div className="w-[99vw]  min-h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-start flex-col md:flex-row justify-start  pt-[70px] overflow-x-hidden z-[2] pb-[110px]">
+    <div className="w-[99vw]  min-h-screen bg-linear-to-l from-[#141414] to-[#0c2025] flex items-start flex-col md:flex-row justify-start  pt-17.5 overflow-x-hidden z-2 pb-27.5">
       <div
-        className={`md:w-[30vw] lg:w-[20vw] w-[100vw] md:min-h-[100vh] ${showFilter ? "h-[45vh]" : "h-[8vh]"}  p-[20px] border-r-[1px] border-gray-400  text-[#aaf5fa] lg:fixed `}
+        className={`md:w-[30vw] lg:w-[20vw] w-screen md:min-h-screen ${showFilter ? "h-[45vh]" : "h-[8vh]"}  p-5 border-r border-gray-400  text-[#aaf5fa] lg:fixed `}
       >
         <p
-          className="text-[25px] font-semibold flex gap-[5px] items-center justify-start cursor-pointer"
+          className="text-[25px] font-semibold flex gap-1.25 items-center justify-start cursor-pointer"
           onClick={() => setShowFilter((prev) => !prev)}
         >
           FILTERS
@@ -86,11 +86,11 @@ const Collections = () => {
         </p>
 
         <div
-          className={`border-[2px] border-[#dedcdc] pl-5 py-3 mt-6 rounded-md bg-slate-600 ${showFilter ? "" : "hidden"} md:block`}
+          className={`border-2 border-[#dedcdc] pl-5 py-3 mt-6 rounded-md bg-slate-600 ${showFilter ? "" : "hidden"} md:block`}
         >
           <p className="text-[18px] text-[#f8fafa]">CATEGORIES</p>
-          <div className="w-[230px] h-[120px]  flex items-start justify-center gap-[10px] flex-col">
-            <p className="flex items-center justify-center gap-[10px] text-[16px] font-light">
+          <div className="w-57.5 h-30  flex items-start justify-center gap-2.5 flex-col">
+            <p className="flex items-center justify-center gap-2.5 text-[16px] font-light">
               {" "}
               <input
                 type="checkbox"
@@ -100,7 +100,7 @@ const Collections = () => {
               />{" "}
               Men
             </p>
-            <p className="flex items-center justify-center gap-[10px] text-[16px] font-light">
+            <p className="flex items-center justify-center gap-2.5 text-[16px] font-light">
               {" "}
               <input
                 type="checkbox"
@@ -110,7 +110,7 @@ const Collections = () => {
               />{" "}
               Women
             </p>
-            <p className="flex items-center justify-center gap-[10px] text-[16px] font-light">
+            <p className="flex items-center justify-center gap-2.5 text-[16px] font-light">
               <input
                 type="checkbox"
                 value={"Kids"}
@@ -122,11 +122,11 @@ const Collections = () => {
           </div>
         </div>
         <div
-          className={`border-[2px] border-[#dedcdc] pl-5 py-3 mt-6 rounded-md bg-slate-600 ${showFilter ? "" : "hidden"} md:block`}
+          className={`border-2 border-[#dedcdc] pl-5 py-3 mt-6 rounded-md bg-slate-600 ${showFilter ? "" : "hidden"} md:block`}
         >
           <p className="text-[18px] text-[#f8fafa]">SUB-CATEGORIES</p>
-          <div className="w-[230px] h-[120px]  flex items-start justify-center gap-[10px] flex-col">
-            <p className="flex items-center justify-center gap-[10px] text-[16px] font-light">
+          <div className="w-57.5 h-30  flex items-start justify-center gap-2.5 flex-col">
+            <p className="flex items-center justify-center gap-2.5 text-[16px] font-light">
               <input
                 type="checkbox"
                 value={"TopWear"}
@@ -135,7 +135,7 @@ const Collections = () => {
               />
               TopWear
             </p>
-            <p className="flex items-center justify-center gap-[10px] text-[16px] font-light">
+            <p className="flex items-center justify-center gap-2.5 text-[16px] font-light">
               <input
                 type="checkbox"
                 value={"BottomWear"}
@@ -144,7 +144,7 @@ const Collections = () => {
               />
               BottomWear
             </p>
-            <p className="flex items-center justify-center gap-[10px] text-[16px] font-light">
+            <p className="flex items-center justify-center gap-2.5 text-[16px] font-light">
               <input
                 type="checkbox"
                 value={"WinterWear"}
@@ -156,25 +156,25 @@ const Collections = () => {
           </div>
         </div>
       </div>
-      <div className="lg:pl-[20%] md:py-[10px] ">
-        <div className=" md:w-[80vw] w-[100vw]    flex  justify-between flex-col lg:flex-row lg:px-[50px] ">
+      <div className="lg:pl-[20%] md:py-2.5 ">
+        <div className=" md:w-[80vw] w-screen    flex  justify-between flex-col lg:flex-row lg:px-12.5 ">
           <Title text1={"ALL"} text2={"COLLECTIONS"} />
           <select
-            className="bg-slate-600 w-[60%] md:w-[200px] h-[50px] px-[10px] text-[white] rounded-lg hover:border-[#46d1f7] border-[2px]"
+            className="bg-slate-600 w-[60%] md:w-50 h-12.5 px-2.5 text-[white] rounded-lg hover:border-[#46d1f7] border-2"
             onChange={(e) => SetSortType(e.target.value)}
           >
-            <option value="relavent" className="w-[100%] h-[100%]">
+            <option value="relavent" className="w-full h-full">
               Sort By: Relavent
             </option>
-            <option value="low-high" className="w-[100%] h-[100%]">
+            <option value="low-high" className="w-full h-full">
               Sort By: Low to High
             </option>
-            <option value="high-low" className="w-[100%] h-[100%]">
+            <option value="high-low" className="w-full h-full">
               Sort By: High to Low
             </option>
           </select>
         </div>
-        <div className="lg:w-[80vw] md:w-[60vw]   w-[100vw] min-h-[70vh] flex items-center justify-center flex-wrap gap-[30px]">
+        <div className="lg:w-[80vw] md:w-[60vw]   w-screen min-h-[70vh] flex items-center justify-center flex-wrap gap-7.5">
           {filterProduct.map((item, index) => (
             <Card
               key={index}
@@ -188,6 +188,4 @@ const Collections = () => {
       </div>
     </div>
   );
-};
-
-export default Collections;
+}

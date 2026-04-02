@@ -5,7 +5,7 @@ import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import RelatedProduct from "../components/RelatedProduct";
 import Loading from "../components/Loading";
 
-const ProductDetail = () => {
+export default function ProductDetail() {
   const { productId } = useParams();
   const { products, currency, addtoCart, loading } =
     useContext(shopDataContext);
@@ -36,7 +36,7 @@ const ProductDetail = () => {
   if (!productData) return <div className="opacity-0"></div>;
 
   return (
-    <div className="bg-gradient-to-l from-[#141414] to-[#0c2025] min-h-screen w-full flex flex-col items-center text-white">
+    <div className="bg-linear-to-l from-[#141414] to-[#0c2025] min-h-screen w-full flex flex-col items-center text-white">
       {/* --- PRODUCT IMAGE SECTION --- */}
       <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10 py-10 m-10">
         {/* Small Images */}
@@ -57,7 +57,7 @@ const ProductDetail = () => {
         </div>
 
         {/* Main Image */}
-        <div className="w-72 md:w-96 lg:w-[500px] h-72 md:h-96 lg:h-[500px] border border-gray-700 rounded-md overflow-hidden shadow-lg">
+        <div className="w-72 md:w-96 lg:w-125 h-72 md:h-96 lg:h-125 border border-gray-700 rounded-md overflow-hidden shadow-lg">
           <img
             src={image}
             alt=""
@@ -131,7 +131,7 @@ const ProductDetail = () => {
       </div>
 
       {/* --- DESCRIPTION & RELATED SECTION --- */}
-      <div className="w-full bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col items-start justify-start py-10 px-4 md:px-10">
+      <div className="w-full bg-linear-to-l from-[#141414] to-[#0c2025] flex flex-col items-start justify-start py-10 px-4 md:px-10">
         <div className="flex gap-4 mb-4 border-b border-slate-700 pb-2">
           <p className="px-5 py-2 border text-sm md:text-base">Description</p>
           <p className="px-5 py-2 border text-sm md:text-base">Reviews (124)</p>
@@ -157,6 +157,4 @@ const ProductDetail = () => {
       </div>
     </div>
   );
-};
-
-export default ProductDetail;
+}
