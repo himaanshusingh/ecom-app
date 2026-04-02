@@ -96,20 +96,20 @@ npm install
 PORT = 3000
 
 # Database connection string
-MONGODB_URI = "mongodb+srv://<cluster-name>:<password>@<custer-name>.lonqhyi.mongodb.net/<database-name>"
+MONGODB_URI = "mongodb+srv://<cluster-name>:<password>@<cluster-name>.lonqhyi.mongodb.net/<database-name>"
 
 # Email credentials for sending password resets and OTPs
 ADMIN_EMAIL = 'johndoe@gmail.com'
 ADMIN_PASSWORD = 'johnDoe@123'
 
 # Cloudinary details for storage
-CLOUDINARY_NAME = 'dnw0g13li'
+CLOUDINARY_NAME = 'CLOUDINARY_NAME'
 CLOUDINARY_API_SECRET = 'CLOUDINARY_API_SECRET'
-CLOUDINARY_API_KEY = '189992546537976'
+CLOUDINARY_API_KEY = 'CLOUDINARY_API_KEY'
 
 # Razorpay details
-RAZORPAY_KEY_SECRET = 'jLM2C1o0I9X0vUOackYe1P5d'
-RAZORPAY_KEY_ID = 'rzp_test_SY9ULcIDQsuRN4'
+RAZORPAY_KEY_SECRET = 'RAZORPAY_KEY_SECRET'
+RAZORPAY_KEY_ID = 'RAZORPAY_KEY_ID'
 
 # Secret key for jwt security
 JWT_SECRET = "your-secret-key"
