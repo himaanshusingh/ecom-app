@@ -1,123 +1,130 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useContext, useState, useEffect } from "react";
-import { SiEbox } from "react-icons/si";
+import { backendUrl, currency } from "../App";
+import { toast } from "react-toastify";
+import { assets } from "../assets/assets.js";
 
-import Navbar from "../components/Navbar";
-import SideBar from "../components/SideBar";
-import { authDataContext } from "../context/AuthContext";
-
-export default function Orders() {
+const Orders = ({ token }) => {
   const [orders, setOrders] = useState([]);
-  const { serverUrl } = useContext(authDataContext);
 
-  async function fetchAllOrders() {
+  const fetchAllOrders = async () => {
+    if (!token) {
+      return null;
+    }
+
     try {
-      const result = await axios.post(
-        serverUrl + "/api/order/list",
+      const response = await axios.post(
+        backendUrl + "/api/order/list",
         {},
-        { withCredentials: true },
+        { headers: { token } },
       );
-      setOrders(result.data.reverse());
+
+      if (response.data.success) {
+        setOrders(response.data.orders);
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
-  }
+  };
 
-  async function statusHandler(e, orderId) {
+  const statusHandler = async (event, orderId) => {
     try {
-      const result = await axios.post(
-        serverUrl + "/api/order/status",
-        { orderId, status: e.target.value },
-        { withCredentials: true },
+      const response = await axios.post(
+        backendUrl + "/api/order/status",
+        { orderId, status: event.target.value },
+        { headers: { token } },
       );
-      if (result.data) {
+
+      if (response.data.success) {
         await fetchAllOrders();
       }
     } catch (error) {
       console.log(error);
+      toast.error(response.data.message);
     }
-  }
+  };
 
   useEffect(() => {
     fetchAllOrders();
   }, []);
 
   return (
-    <div className="w-[99vw] min-h-screen bg-linear-to-l from-[#141414] to-[#0c2025] text-[white]">
-      <Navbar />
-      <div className="w-full h-full flex items-center lg:justify-start justify-center">
-        <SideBar />
-        <div className="lg:w-[85%] md:w-[70%] h-full lg:ml-77.5 md:ml-62.5 mt-17.5 flex flex-col gap-7.5 overflow-x-hidden py-12.5 ml-25">
-          <div className="w-100 h-12.5 text-[28px] md:text-[40px] mb-5 text-white">
-            All Orders List
-          </div>
-          {orders.map((order, index) => (
-            <div
-              key={index}
-              className="w-[90%] h-[40%] bg-slate-600 rounded-xl flex lg:items-center items-start justify-between  flex-col lg:flex-row p-2.5 md:px-5  gap-5"
-            >
-              <SiEbox className="w-15 h-15 text-[black] p-1.25 rounded-lg bg-[white]" />
-
+    <div>
+      <h3>Order Page</h3>
+      <div>
+        {orders.map((order, index) => (
+          <div
+            className="grid grid-cols-1 sm:grid-cols-[0.5fr_2fr_1fr] lg:grid-cols-[0.5fr_2fr_1fr_1fr_1fr] gap-3 items-start border-2 border-gray-200 p-5 md:p-8 my-3 md:my-4 text-xs sm:text-sm text-gray-700"
+            key={index}
+          >
+            <img className="w-12" src={assets.parcel_icon} alt="parcel-icon" />
+            <div>
               <div>
-                <div className="flex items-start justify-center flex-col gap-1.25 text-[16px] text-[#56dbfc]">
-                  {order.items.map((item, index) => {
-                    if (index === order.items.length - 1) {
-                      return (
-                        <p key={index}>
-                          {item.name.toUpperCase()} * {item.quantity}{" "}
-                          <span>{item.size}</span>
-                        </p>
-                      );
-                    } else {
-                      return (
-                        <p key={index}>
-                          {item.name.toUpperCase()} * {item.quantity}{" "}
-                          <span>{item.size}</span>,
-                        </p>
-                      );
-                    }
-                  })}
-                </div>
+                {order.items.map((item, index) => {
+                  if (index === order.items.length - 1) {
+                    return (
+                      <p className="py-0.5" key={index}>
+                        {item.name} x {item.quantity} <span>{item.size}</span>
+                      </p>
+                    );
+                  } else {
+                    return (
+                      <p className="py-0.5" key={index}>
+                        {item.name} x {item.quantity} <span>{item.size}</span>,
+                      </p>
+                    );
+                  }
+                })}
+              </div>
+              <p className="mt-3 mb-2 font-medium">
+                {order.address.firstName + " " + order.address.lastName}
+              </p>
+              <div>
+                <p>{order.address.street + ", "}</p>
 
-                <div className="text-[15px] text-green-100">
-                  <p>
-                    {order.address.firstName + " " + order.address.lastName}
-                  </p>
-                  <p>{order.address.street + ", "}</p>
-                  <p>
-                    {order.address.city +
-                      ", " +
-                      order.address.state +
-                      ", " +
-                      order.address.country +
-                      ", " +
-                      order.address.pinCode}
-                  </p>
-                  <p>{order.address.phone}</p>
-                </div>
+                <p>
+                  {order.address.city +
+                    ", " +
+                    order.address.state +
+                    ", " +
+                    order.address.country +
+                    ", " +
+                    order.address.zipcode}
+                </p>
               </div>
-              <div className="text-[15px] text-green-100">
-                <p>Items : {order.items.length}</p>
-                <p>Method : {order.paymentMethod}</p>
-                <p>Payment : {order.payment ? "Done" : "Pending"}</p>
-                <p>Date : {new Date(order.date).toLocaleDateString()}</p>
-                <p className="text-[20px] text-[white]"> ₹ {order.amount}</p>
-              </div>
-              <select
-                value={order.status}
-                className="px-1.25 py-2.5 bg-slate-500 rounded-lg border border-[#96eef3]"
-                onChange={(e) => statusHandler(e, order._id)}
-              >
-                <option value="Order Placed">Order Placed</option>
-                <option value="Packing">Packing</option>
-                <option value="Shipped">Shipped</option>
-                <option value="Out for delivery">Out for delivery</option>
-                <option value="Delivered">Delivered</option>
-              </select>
+              <p>{order.address.phone}</p>
             </div>
-          ))}
-        </div>
+            <div>
+              <p className="text-sm sm:text-[15px]">
+                Items: {order.items.length}
+              </p>
+              <p className="mt-3">Method: {order.paymentMethod}</p>
+              <p>Payment: {order.payment ? "Done" : "Pending"}</p>
+              <p>Date: {new Date(order.date).toLocaleString()}</p>
+            </div>
+            <p className="text-sm sm:text-[15px]">
+              {currency}
+              {order.amount}
+            </p>
+            <select
+              onChange={(e) => statusHandler(e, order._id)}
+              value={order.status}
+              className="p-2 font-semibold"
+            >
+              <option value="Order Placed">Order Placed</option>
+              <option value="Packing">Packing</option>
+              <option value="Shipped">Shipped</option>
+              <option value="Out For Delivery">Out For Delivery</option>
+              <option value="Delivered">Delivered</option>
+            </select>
+          </div>
+        ))}
       </div>
     </div>
   );
-}
+};
+
+export default Orders;

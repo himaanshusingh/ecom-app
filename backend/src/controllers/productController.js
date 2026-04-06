@@ -1,55 +1,70 @@
-import uploadCloudinary from "../config/cloudinary.js";
-import Product from "../models/productModel.js";
+import { v2 as cloudinary } from "cloudinary";
+import productModel from "../models/productModel.js";
 
-export const addProduct = async (req, res) => {
+export async function addProduct(req, res) {
   try {
-    let { name, description, price, category, subCategory, sizes, bestseller } = req.body;
-    let image1 = await uploadCloudinary(req.files.image1[0].path);
-    let image2 = await uploadCloudinary(req.files.image2[0].path);
-    let image3 = await uploadCloudinary(req.files.image3[0].path);
-    let image4 = await uploadCloudinary(req.files.image4[0].path);
+    const { name, description, price, category } = req.body;
+    const { subCategory, sizes, bestseller } = req.body;
 
-    let productData = {
+    // Converting images to url :-
+    const imagesArr = req.files.images;
+    const images = imagesArr.filter((image) => image != undefined);
+    const imagesUrl = await Promise.all(
+      images.map((item) =>
+        cloudinary.uploader
+          .upload(item.path, { resource_type: "image" })
+          .then((res) => res.secure_url)
+          .catch((err) => console.log(err)),
+      ),
+    );
+
+    // Creating a new product :-
+    const productData = {
       name,
       description,
       price: Number(price),
       category,
       subCategory,
       sizes: JSON.parse(sizes),
-      bestseller: bestseller === "true" ? true : false,
+      bestseller: Boolean(bestseller),
+      image: imagesUrl,
       date: Date.now(),
-      image1,
-      image2,
-      image3,
-      image4,
     };
 
-    const product = await Product.create(productData);
-
-    return res.status(201).json(product);
-  } catch (error) {
-    console.log("AddProduct error");
-    return res.status(500).json({ message: `AddProduct error ${error}` });
+    await productModel.create(productData);
+    res.status(200).json({ success: true, message: "Product added" });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ success: false, message: err.message });
   }
-};
+}
 
-export const listProduct = async (req, res) => {
+export async function listProducts(req, res) {
   try {
-    let product = await Product.find({});
-    return res.status(200).json(product);
-  } catch (error) {
-    console.log("list product error");
-    return res.status(500).json({ message: `list product error ${error}` });
+    const products = await productModel.find();
+    res.status(200).json({ success: true, products });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ success: false, message: err.message });
   }
-};
+}
 
-export const removeProduct = async (req, res) => {
+export async function removeProduct(req, res) {
   try {
-    let { id } = req.params;
-    let remove = await Product.findByIdAndDelete(id);
-    return res.status(200).json(remove);
-  } catch (error) {
-    console.log("remove product error");
-    return res.status(500).json({ message: `remove product error, ${error}` });
+    await productModel.findByIdAndDelete(req.body.id);
+    res.status(200).json({ success: true, message: "Product removed" });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ success: false, message: err.message });
   }
-};
+}
+
+export async function singleProduct(req, res) {
+  try {
+    const product = await productModel.findById(req.body.id);
+    res.status(200).json({ success: true, product });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ success: false, message: err.message });
+  }
+}

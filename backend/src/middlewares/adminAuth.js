@@ -1,15 +1,20 @@
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../config/envConfig.js";
+import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../config/envConfig.js";
 
-export const adminAuth = async (req, res, next) => {
+export default async function adminAuth(req, res, next) {
   try {
-    let { token } = req.cookies;
-    if (!token) return res.status(400).json({ message: `token is not found` });
-    let verifyToken = jwt.verify(token, process.env.JWT_SECRET);
-    if (!verifyToken) return res.status(400).json({ message: `token is not verfied` });
-    req.adminemail = process.env.ADMIN_EMAIL;
+    const { token } = req.headers;
+    if (!token) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+    const decoded = jwt.verify(token, JWT_SECRET);
+    if (decoded != ADMIN_EMAIL + ADMIN_PASSWORD) {
+      return res.status(200).json({ success: false, message: "Unauthorized" });
+    }
     next();
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: ` admin auth failed` });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ success: false, message: `i${err.message}` });
   }
-};
+}

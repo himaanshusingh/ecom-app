@@ -1,30 +1,27 @@
-import { FaCircle } from "react-icons/fa";
+import { assets } from "../assets/assets";
 
-export default function Hero({ heroData, heroCount, setHeroCount }) {
+export default function Hero() {
   return (
-    <div className="w-[40%] h-full  relative">
-      <div className="absolute  text-[#88d9ee]  text-[20px] md:text-[40px] lg:text-[55px] md:left-[10%] md:top-22.5 lg:top-32.5 left-[10%] top-2.5">
-        <p>{heroData.text1}</p>
-        <p>{heroData.text2}</p>
+    <div className="flex flex-col sm:flex-row border border-gray-300 border-t-0">
+      {/* Hero Left Side */}
+      <div className="w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0">
+        <div className="text-[#414141]">
+          <div className="flex items-center gap-2">
+            <p className="w-8 md:w-11 h-0.5 bg-[#414141]"></p>
+            <p className="font-medium text-sm md:text-base">OUR BESTSELLERS</p>
+          </div>
+          <h1 className="text-3xl sm:py-3 lg:text-5xl leading-relaxed prata-regular">
+            Latest Arrivals
+          </h1>
+          <div className="flex items-center gap-2">
+            <p className="font-semibold text-sm md:text-base">SHOP NOW</p>
+            <div className="w-8 md:w-11 h-px bg-[#414141]"></div>
+          </div>
+        </div>
       </div>
-      <div className="absolute md:top-100   lg:top-125 top-40 left-[10%] flex items-center justify-center gap-2.5 ">
-        <FaCircle
-          className={`w-3.5 ${heroCount === 0 ? "fill-orange-400" : "fill-white"}`}
-          onClick={() => setHeroCount(0)}
-        />
-        <FaCircle
-          className={`w-3.5 ${heroCount === 1 ? "fill-orange-400" : "fill-white"}`}
-          onClick={() => setHeroCount(1)}
-        />
-        <FaCircle
-          className={`w-3.5 ${heroCount === 2 ? "fill-orange-400" : "fill-white"}`}
-          onClick={() => setHeroCount(2)}
-        />
-        <FaCircle
-          className={`w-3.5 ${heroCount === 3 ? "fill-orange-400" : "fill-white"}`}
-          onClick={() => setHeroCount(3)}
-        />
-      </div>
+
+      {/* Hero Right Side */}
+      <img src={assets.hero_img} alt="" className="w-full sm:w-1/2" />
     </div>
   );
 }

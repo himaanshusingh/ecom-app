@@ -1,44 +1,17 @@
-import { useState, useEffect } from "react";
-import Nav from "../components/Nav";
-import Background from "../components/Background";
+import BestSeller from "../components/BestSeller";
 import Hero from "../components/Hero";
-import Product from "./Product";
+import LatestCollection from "../components/LatestCollection";
+import NewsLetter from "../components/NewsLetter";
 import OurPolicy from "../components/OurPolicy";
-import NewLetter from "../components/NewLetter";
-import Footer from "../components/Footer";
 
 export default function Home() {
-  const heroData = [
-    { text1: "30% OFF Limited Offer", text2: "Style that" },
-    { text1: "Discover the Best of Bold Fashion", text2: "Limited Time Only!" },
-    { text1: "Explore Our Best Collection ", text2: "Shop Now!" },
-    { text1: "Choose your Perfect Fasion Fit", text2: "Now on Sale!" },
-  ];
-
-  const [heroCount, setHeroCount] = useState(0);
-
-  useEffect(() => {
-    let interval = setInterval(() => {
-      setHeroCount((prevCount) => (prevCount === 3 ? 0 : prevCount + 1));
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="overflow-x-hidden relative top-17.5">
-      <div className=" w-screen lg:h-screen md:h-[50vh] sm:h-[30vh] bg-linear-to-l from-[#141414] to-[#0c2025] ">
-        <Nav />
-        <Background heroCount={heroCount} />
-        <Hero
-          heroCount={heroCount}
-          setHeroCount={setHeroCount}
-          heroData={heroData[heroCount]}
-        />
-      </div>
-      <Product />
+    <>
+      <Hero />
+      <LatestCollection />
+      <BestSeller />
       <OurPolicy />
-      <NewLetter />
-      <Footer />
-    </div>
+      <NewsLetter />
+    </>
   );
 }

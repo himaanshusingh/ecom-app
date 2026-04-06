@@ -1,20 +1,16 @@
-import fs from "fs";
 import { v2 as cloudinary } from "cloudinary";
+import { CLOUDINARY_NAME } from "./envConfig.js";
+import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from "./envConfig.js";
 
-export default async function uploadCloudinary(filepath) {
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
-
+export default async function connectCloudinary() {
   try {
-    if (!filepath) return null;
-    const uploadResult = await cloudinary.uploader.upload(filepath);
-    fs.unlinkSync(filepath);
-    return uploadResult.secure_url;
-  } catch (error) {
-    fs.unlinkSync(filepath);
-    console.log(error);
+    cloudinary.config({
+      cloud_name: CLOUDINARY_NAME,
+      api_key: CLOUDINARY_API_KEY,
+      api_secret: CLOUDINARY_API_SECRET,
+    });
+    console.log("Cloudinary is connected successfully.");
+  } catch (err) {
+    console.log(err);
   }
 }

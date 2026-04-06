@@ -1,35 +1,24 @@
-import { IoIosAddCircleOutline } from "react-icons/io";
-import { FaRegListAlt } from "react-icons/fa";
-import { SiTicktick } from "react-icons/si";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { assets } from "../assets/assets";
 
-export default function SideBar() {
-  const navigate = useNavigate();
-
+export default function Sidebar() {
   return (
-    <div className="w-[18%] min-h-screen border-r py-15 fixed left-0 top-0">
-      <div className="flex flex-col gap-4 pt-10 pl-[20%] text-[15px]">
-        <div
-          className="flex items-center justify-center md:justify-start gap-3 border border-gray-200 border-r-0 px-3 py-2 cursor-pointer hover:bg-[#2c7b89]"
-          onClick={() => navigate("/add")}
-        >
-          <IoIosAddCircleOutline className="w-5 h-5" />
-          <p className="hidden md:block">Add Items</p>
-        </div>
-        <div
-          className="flex items-center justify-center md:justify-start gap-3 border border-gray-200 border-r-0 px-3 py-2 cursor-pointer hover:bg-[#2c7b89]"
-          onClick={() => navigate("/lists")}
-        >
-          <FaRegListAlt className="w-5 h-5" />
-          <p className="hidden md:block">List Items</p>
-        </div>
-        <div
-          className="flex items-center justify-center md:justify-start gap-3 border border-gray-200 border-r-0 px-3 py-2 cursor-pointer hover:bg-[#2c7b89]"
-          onClick={() => navigate("/orders")}
-        >
-          <SiTicktick className="w-5 h-5" />
-          <p className="hidden md:block">View Orders</p>
-        </div>
+    <div className="w-[18%] min-h-[89vh] border-r-2 border-gray-300">
+      <div className="flex flex-col gap-4 pt-6 pl-[20%] text-[15px]">
+        {[
+          { to: "/", src: assets.add_icon, text: "Add Items" },
+          { to: "/list", src: assets.order_icon, text: "List Items" },
+          { to: "/orders", src: assets.order_icon, text: "Orders" },
+        ].map(({ to, src, text }) => (
+          <NavLink
+            to={to}
+            key={text}
+            className="flex items-center gap-3 border-2 border-gray-300 border-r-0 px-3 py-2 rounder-l"
+          >
+            <img src={src} alt="" className="w-5 h-5" />
+            <p className="hidden md:block">{text}</p>
+          </NavLink>
+        ))}
       </div>
     </div>
   );
