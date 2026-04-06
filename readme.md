@@ -1,14 +1,12 @@
 ## MERN Ecommerce: A Seamless Shopping Experience Powered by the MERN Stack, Redux Toolkit, and Material UI
 
-### Also try -> [https://foreverbuy.in](https://foreverbuy.in/)
+### Also try -> [https://ecom-app.vercel.app](https://foreverbuy.in/)
 
 ### `Note✨: I have another amazing project on` [end-to-end-encrypted-chat-application](https://chat-app-greatstack.vercel.app/) `using React.js, Mongoose, MongoDb, Express, Socket.io.`
 
 **MERN Ecommerce** is a full-stack application designed to transform your online shopping experience. Built with the MERN stack (MongoDB, Express.js, React, Node.js), it leverages Redux Toolkit for efficient state management and Material UI for a sleek, user-friendly interface. This project offers a robust platform for both users and admins, packed with essential features for a seamless experience.
 
 ![ecommerce-homepage](https://github.com/RishiBakshii/mern-ecommerce/blob/main/frontend/src/assets/images/front.png?raw=true)
-
-<!-- ![ecommerce-banner](https://github.com/RishiBakshii/mern-ecommerce/blob/main/frontend/src/assets/images/banner4.jpg?raw=true) -->
 
 # **Features**
 
@@ -54,7 +52,7 @@
 - Node.js ( version v21.1.0 or later )
 - MongoDB installed and running locally
 
-### Clone the project
+### Clone the repository
 
 ```bash
   git clone https://github.com/himaanshusingh/ecom-app.git
