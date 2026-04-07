@@ -1,10 +1,41 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [currentState, setCurrentState] = useState("Login");
+  const [info, setInfo] = useState({ name: "", email: "", password: "" });
+  const { email, password } = info;
 
-  function handleSubmit(e) {
+  const { token, setToken, backendUrl } = useContext(ShopContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) navigate("/");
+  }, [token]);
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    try {
+      if (currentState === "Sign Up") {
+        const res = await axios.post(`${backendUrl}/api/user/register`, info);
+        if (res.data.success) {
+          setToken(res.data.token);
+          localStorage.setItem("token", res.data.token);
+        } else toast.error(res.data.message);
+      } else {
+        const res = await axios.post(`${backendUrl}/api/user/register`, { email, password }); // prettier-ignore
+        if (res.data.success) {
+          setToken(res.data.token);
+          localStorage.setItem("token", res.data.token);
+        } else toast.error(res.data.message);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    }
   }
 
   return (
@@ -18,19 +49,23 @@ export default function Login() {
       </div>
 
       {[
-        { type: "text", placeholder: "Name" },
-        { type: "text", placeholder: "Email" },
-        { type: "text", placeholder: "Password" },
-      ].map(({ type, placeholder }) =>
+        { type: "text", placeholder: "Name", name: "name" },
+        { type: "email", placeholder: "Email", name: "email" },
+        { type: "password", placeholder: "Password", name: "password" },
+      ].map(({ type, placeholder, name }) =>
         currentState === "Login" && placeholder === "Name" ? (
           ""
         ) : (
           <input
+            required
             type={type}
-            required={true}
             key={placeholder}
+            value={info[name]}
             placeholder={placeholder}
             className="w-full px-3 py-2 border border-gray-800"
+            onChange={(e) =>
+              setInfo((prev) => ({ ...prev, [name]: e.target.value }))
+            }
           />
         ),
       )}

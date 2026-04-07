@@ -1,54 +1,48 @@
 import { v2 as cloudinary } from "cloudinary";
 import productModel from "../models/productModel.js";
 
+// Controller of adding a product :-
 export async function addProduct(req, res) {
   try {
     const { name, description, price, category } = req.body;
     const { subCategory, sizes, bestseller } = req.body;
+    const { image1, image2, image3, image4 } = req.files;
+
+    const imageList = [image1, image2, image3, image4];
+    const images = imageList.filter((image) => image != undefined);
+    console.log(image1, image2, image3, image4);
 
     // Converting images to url :-
-    const imagesArr = req.files.images;
-    const images = imagesArr.filter((image) => image != undefined);
     const imagesUrl = await Promise.all(
       images.map((item) =>
         cloudinary.uploader
-          .upload(item.path, { resource_type: "image" })
+          .upload(item.path, { resource_type: "image", timeout: 60000 })
           .then((res) => res.secure_url)
-          .catch((err) => console.log(err)),
+          .catch((err) => console.log(err.message)),
       ),
     );
 
     // Creating a new product :-
     const productData = {
       name,
-      description,
-      price: Number(price),
       category,
       subCategory,
+      description,
+      images: imagesUrl,
+      price: Number(price),
       sizes: JSON.parse(sizes),
       bestseller: Boolean(bestseller),
-      image: imagesUrl,
       date: Date.now(),
     };
 
-    await productModel.create(productData);
-    res.status(200).json({ success: true, message: "Product added" });
+    const product = await productModel.create(productData);
+    res.status(200).json({ success: true, message: "Product added", product });
   } catch (err) {
-    console.log(err);
     res.status(400).json({ success: false, message: err.message });
   }
 }
 
-export async function listProducts(req, res) {
-  try {
-    const products = await productModel.find();
-    res.status(200).json({ success: true, products });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ success: false, message: err.message });
-  }
-}
-
+// Controller of removing a product :-
 export async function removeProduct(req, res) {
   try {
     await productModel.findByIdAndDelete(req.body.id);
@@ -59,10 +53,22 @@ export async function removeProduct(req, res) {
   }
 }
 
+// Controller of sending a single product :-
 export async function singleProduct(req, res) {
   try {
     const product = await productModel.findById(req.body.id);
     res.status(200).json({ success: true, product });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ success: false, message: err.message });
+  }
+}
+
+// Controller of sending all products :-
+export async function listProducts(req, res) {
+  try {
+    const products = await productModel.find();
+    res.status(200).json({ success: true, products });
   } catch (err) {
     console.log(err);
     res.status(400).json({ success: false, message: err.message });

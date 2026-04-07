@@ -1,7 +1,9 @@
+import axios from "axios";
 import { useState } from "react";
 import { assets } from "../assets/assets.js";
+import { backendUrl } from "../App";
 
-export default function Add() {
+export default function Add({ token }) {
   const [images, setImages] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -11,15 +13,46 @@ export default function Add() {
   const [bestseller, setBestSeller] = useState(false);
   const [sizes, setSizes] = useState([]);
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("subCategory", subCategory);
+      formData.append("bestseller", bestseller);
+      formData.append("sizes", JSON.stringify(sizes));
+      images.forEach((img, index) => {
+        formData.append(`image${index+1}`, img);
+      });
+
+      const res = await axios.post(`${backendUrl}/api/product/add`, formData, { headers: { token } });
+
+      toast.success(res.data.message);
+      setName("");
+      setDescription("");
+      setImages([]);
+      setPrice("");
+    } catch (err) {
+      console.log(err.response.data);
+      toast.error(res.data.message)
+    } // prettier-ignore
+  }
+
   return (
-    <form className="flex flex-col m-10 items-start gap-3">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col m-10 items-start gap-3"
+    >
       <div>
         <p className="mb-2">Upload Image</p>
         <div className="flex gap-2">
           {["image1", "image2", "image3", "image4"].map(
             (item, index) =>
             <label htmlFor={item} key={item}>
-              <img alt="" className="w-20" src={!images[index] ? assets.upload_area : URL.createObjectURL(images[index]) } />
+              <img alt="" className="w-20 h-20 object-cover" src={!images[index] ? assets.upload_area : URL.createObjectURL(images[index]) } />
               <input hidden type="file" id={item} onChange={(e) => setImages((prev) => [...prev, e.target.files[0]])} />
             </label>,
             // prettier-ignore
@@ -90,9 +123,22 @@ export default function Add() {
       <div>
         <p className="mb-2">Product Sizes</p>
         <div className="flex gap-3">
-          {["S", "M", "L", "XL"].map((size) => (
-            <div key={size}>
-              <p className="bg-slate-200 px-3 py-1 cursor-pointer">{size}</p>
+          {["S", "M", "L", "XL", "XXL"].map((size) => (
+            <div
+              key={size}
+              onClick={() => {
+                setSizes((prev) =>
+                  prev.includes(size)
+                    ? prev.filter((item) => item != size)
+                    : [...prev, size],
+                );
+              }}
+            >
+              <p
+                className={`${sizes.includes(size) ? "bg-pink-100" : "bg-slate-200"}  px-3 py-1 cursor-pointer`}
+              >
+                {size}
+              </p>
             </div>
           ))}
         </div>
@@ -102,7 +148,8 @@ export default function Add() {
         <input
           id="bestseller"
           type="checkbox"
-          onChange={() => setBestSeller(!bestseller)}
+          checked={bestseller}
+          onChange={() => setBestSeller((prev) => !prev)}
         />
         <label htmlFor="bestseller" className="cursor-pointer">
           Add to BestSeller

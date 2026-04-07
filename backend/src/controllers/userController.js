@@ -8,7 +8,7 @@ import userModel from "../models/userModel.js";
 import { JWT_SECRET } from "../config/envConfig.js";
 import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../config/envConfig.js";
 
-// Route for user Registration :-
+// Controller of user Registration :-
 export async function registerUser(req, res) {
   try {
     const { name, email, password } = req.body;
@@ -16,58 +16,70 @@ export async function registerUser(req, res) {
     // Checking if user already exists :-
     const isExists = await userModel.findOne({ email });
     if (isExists) {
-      return res
-        .status(401)
-        .json({ success: false, message: "User already exists" });
+      return res.status(401).json({
+        success: false,
+        message: "User already exists with the same email",
+      });
     }
 
-    // Validating email format & strong password :-
+    // Validating email format :-
     if (!validator.isEmail(email)) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Please enter a valid email" });
+      return res.status(401).json({
+        success: false,
+        message: "Please enter a valid email like(abc@gmail.com)",
+      });
     }
+
+    // Validating strong password :-
     if (password.length < 8) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Password should be min 8 chars" });
+      return res.status(401).json({
+        success: false,
+        message: "Password should be min 8 chars",
+      });
     }
 
     // Hashing user password :-
-    const salt = await bcrypt.genSalt(10);
-    const hPassword = await bcrypt.hash(password, salt);
+    const hPassword = await bcrypt.hash(password, 10); // "saltRounds"
 
     const user = await userModel.create({ name, email, password: hPassword });
     const token = jwt.sign({ id: user._id }, JWT_SECRET);
+
     res.status(201).json({ success: true, token });
   } catch (err) {
-    console.log(err);
     res.status(401).json({ success: false, message: err.message });
   }
 }
 
+// Controller of user Login :-
 export async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
+
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User doesn't exists" });
+      return res.status(404).json({
+        success: false,
+        message: "User doesn't exists with this mail",
+      });
     }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    console.log(isPasswordValid);
     if (!isPasswordValid) {
-      res.status(404).json({ success: false, message: "Invalid credentials" });
+      return res.status(404).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
+
     const token = jwt.sign({ id: user._id }, JWT_SECRET);
+
     res.status(200).json({ success: true, token });
   } catch (err) {
-    console.log(err);
     res.status(404).json({ success: false, message: err.message });
   }
 }
 
+// Controller of admin Login :-
 export async function loginAdmin(req, res) {
   try {
     const { email, password } = req.body;
@@ -78,7 +90,6 @@ export async function loginAdmin(req, res) {
       res.status(400).json({ success: false, message: "Invalid credentials" });
     }
   } catch (err) {
-    console.log(err);
     res.status(400).json({ success: false, message: err.message });
   }
 }

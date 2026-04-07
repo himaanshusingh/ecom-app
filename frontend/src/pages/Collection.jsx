@@ -13,7 +13,7 @@ export default function Collection() {
 
   useEffect(() => {
     applyFilters();
-  }, [category, subCategory, search, showSearch]);
+  }, [category, subCategory, search, showSearch, products]);
 
   function toggleCategory(e, section) {
     const { value } = e.target;

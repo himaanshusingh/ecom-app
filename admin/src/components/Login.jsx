@@ -17,11 +17,6 @@ export default function Login({ setToken }) {
     }
   }
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setLoginInfo((p) => ({ ...p, [name]: value }));
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center w-full">
       <div className="bg-white shadow-md rounded-lg px-8 py-6 max-w-md">
@@ -39,8 +34,10 @@ export default function Login({ setToken }) {
                 name={type}
                 placeholder={place}
                 value={loginInfo[type]}
-                onChange={handleChange}
                 className="rounded-md w-full px-3 py-2 border border-gray-300 outline-none"
+                onChange={(e) =>
+                  setLoginInfo((prev) => ({ ...prev, [type]: e.target.value }))
+                }
               />
             </div>
           ))}
