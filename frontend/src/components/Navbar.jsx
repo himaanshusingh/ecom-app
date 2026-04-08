@@ -24,7 +24,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className="flex items-center justify-between py-5 font-medium border-b border-gray-300 sticky top-0 bg-white z-100">
+    <div className="flex items-center justify-between py-5 font-medium border-b border-gray-300 sticky top-0 bg-white z-10">
       <Link to="/">
         <img src={assets.logo} alt="" className="w-36" />
       </Link>
@@ -92,7 +92,7 @@ export default function Navbar() {
 
       {/* Sidebar menu for small screens */}
       <div
-        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? "w-full" : "w-0"}`}
+        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? "w-full h-screen" : "w-0 h-0"}`}
       >
         <div className="flex flex-col text-gray-600">
           <div

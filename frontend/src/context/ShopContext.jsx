@@ -22,10 +22,6 @@ export default function ShopContextProvider({ children }) {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
-
   async function addToCart(itemId, size) {
     if (!size) return toast.error("Select Product Size");
     let cartData = structuredClone(cartItems);
@@ -39,6 +35,19 @@ export default function ShopContextProvider({ children }) {
     }
 
     setCartItems(cartData);
+
+    if (token) {
+      try {
+        await axios.post(
+          "http://localhost:3000/api/cart/add",
+          { itemId, size },
+          { headers: token },
+        );
+      } catch (err) {
+        console.log(err);
+        toast.error(err.message);
+      }
+    }
   }
 
   function getCartCount() {
@@ -81,7 +90,6 @@ export default function ShopContextProvider({ children }) {
   async function getProductsData() {
     try {
       const res = await axios.get("http://localhost:3000/api/product/list");
-      console.log(res.data.products);
       setProducts(res.data.products);
       toast.error(res.data.message);
     } catch (err) {

@@ -20,13 +20,13 @@ export default function Login() {
     e.preventDefault();
     try {
       if (currentState === "Sign Up") {
-        const res = await axios.post(`${backendUrl}/api/user/register`, info);
+        const res = await axios.post(`http://localhost:3000/api/user/register`, info);
         if (res.data.success) {
           setToken(res.data.token);
           localStorage.setItem("token", res.data.token);
         } else toast.error(res.data.message);
       } else {
-        const res = await axios.post(`${backendUrl}/api/user/register`, { email, password }); // prettier-ignore
+        const res = await axios.post(`http://localhost:3000/api/user/login`, { email, password }); // prettier-ignore
         if (res.data.success) {
           setToken(res.data.token);
           localStorage.setItem("token", res.data.token);
