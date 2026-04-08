@@ -42,7 +42,7 @@ export default function Cart() {
         {cartData.map((item) => {
           const { _id, size, quantity } = item;
           const productData = products.find((product) => product._id === _id);
-          const { name, price, image } = productData;
+          const { name, price, images } = productData;
 
           return (
             <div
@@ -50,7 +50,7 @@ export default function Cart() {
               className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
             >
               <div className="flex items-start gap-6">
-                <img src={image[0]} className="w-16 sm:w-20" />
+                <img src={images[0]} className="w-16 sm:w-20" />
                 <div>
                   <p className="text-xs sm:text-lg font-medium">{name}</p>
                   <div className="flex items-center mt-2 flex-row gap-5">
