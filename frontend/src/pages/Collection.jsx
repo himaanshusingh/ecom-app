@@ -119,9 +119,9 @@ export default function Collection() {
 
         {/* Map Products */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
-          {filterProducts.map(({ _id, image, name, price }) => (
+          {filterProducts.map(({ _id, images, name, price }) => (
             <div key={_id}>
-              <ProductItem id={_id} image={image} name={name} price={price} />
+              <ProductItem id={_id} images={images} name={name} price={price} />
             </div>
           ))}
         </div>

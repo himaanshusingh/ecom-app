@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { assets } from "../assets/assets.js";
 import { backendUrl } from "../App";
+import { toast } from "react-toastify";
 
 export default function Add({ token }) {
   const [images, setImages] = useState([]);
@@ -25,20 +26,21 @@ export default function Add({ token }) {
       formData.append("bestseller", bestseller);
       formData.append("sizes", JSON.stringify(sizes));
       images.forEach((img, index) => {
-        formData.append(`image${index+1}`, img);
+        formData.append(`image${index + 1}`, img);
       });
 
-      const res = await axios.post(`${backendUrl}/api/product/add`, formData, { headers: { token } });
-
+      const res = await axios.post(`${backendUrl}/api/product/add`, formData, {
+        headers: { token },
+      });
       toast.success(res.data.message);
+
       setName("");
       setDescription("");
       setImages([]);
       setPrice("");
     } catch (err) {
-      console.log(err.response.data);
-      toast.error(res.data.message)
-    } // prettier-ignore
+      toast.error(err.message);
+    }
   }
 
   return (
@@ -144,11 +146,12 @@ export default function Add({ token }) {
         </div>
       </div>
 
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2 mt-2 align-middle">
         <input
           id="bestseller"
           type="checkbox"
           checked={bestseller}
+          className="h-full"
           onChange={() => setBestSeller((prev) => !prev)}
         />
         <label htmlFor="bestseller" className="cursor-pointer">

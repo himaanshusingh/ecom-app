@@ -8,15 +8,14 @@ export async function addProduct(req, res) {
     const { subCategory, sizes, bestseller } = req.body;
     const { image1, image2, image3, image4 } = req.files;
 
-    const imageList = [image1, image2, image3, image4];
+    const imageList = [image1?.[0], image2?.[0], image3?.[0], image4?.[0]];
     const images = imageList.filter((image) => image != undefined);
-    console.log(image1, image2, image3, image4);
 
     // Converting images to url :-
     const imagesUrl = await Promise.all(
-      images.map((item) =>
+      images.map((image) =>
         cloudinary.uploader
-          .upload(item.path, { resource_type: "image", timeout: 60000 })
+          .upload(image.path, { resource_type: "image" })
           .then((res) => res.secure_url)
           .catch((err) => console.log(err.message)),
       ),
@@ -48,7 +47,6 @@ export async function removeProduct(req, res) {
     await productModel.findByIdAndDelete(req.body.id);
     res.status(200).json({ success: true, message: "Product removed" });
   } catch (err) {
-    console.log(err);
     res.status(400).json({ success: false, message: err.message });
   }
 }
@@ -59,7 +57,6 @@ export async function singleProduct(req, res) {
     const product = await productModel.findById(req.body.id);
     res.status(200).json({ success: true, product });
   } catch (err) {
-    console.log(err);
     res.status(400).json({ success: false, message: err.message });
   }
 }
@@ -70,7 +67,6 @@ export async function listProducts(req, res) {
     const products = await productModel.find();
     res.status(200).json({ success: true, products });
   } catch (err) {
-    console.log(err);
     res.status(400).json({ success: false, message: err.message });
   }
 }

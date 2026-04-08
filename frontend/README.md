@@ -1,12 +1,9 @@
-# React + Vite
+## Packeaged used in FrontEnd
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. axios: used to send api calls
+2. react-router-dom: use to create routes
+3. react-toastify: use to display toast notifications
+4. @react-oauth/google: Adds Google Login functionality using Google Identity Services.
+5. lucide-react : Icon library used to display clean, lightweight icons in the UI.
+6. react : Core library for building the UI.
+7. react-dom : Handles rendering React components to the DOM.

@@ -1,23 +1,22 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { products } from "../assets/assets";
 
 export const ShopContext = createContext();
 
 export default function ShopContextProvider({ children }) {
-  const currency = "₹";
+  const currency = "$";
   const deliveryFee = 10;
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
-  // const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    // getProductsData();
+    getProductsData();
     if (!token && localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
     }
@@ -81,11 +80,11 @@ export default function ShopContextProvider({ children }) {
 
   async function getProductsData() {
     try {
-      const res = await axios.get(`${backendUrl}/api/product/list`);
-      if (res.data.success) setProducts(res.data.products);
-      else toast.error(res.data.message);
+      const res = await axios.get("http://localhost:3000/api/product/list");
+      console.log(res.data.products);
+      setProducts(res.data.products);
+      toast.error(res.data.message);
     } catch (err) {
-      console.log(err);
       toast.error(err.message);
     }
   }

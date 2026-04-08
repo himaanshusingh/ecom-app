@@ -24,9 +24,9 @@ export default function LatestCollection() {
 
       {/* Rendering Products */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-        {latestProducts.map(({ _id, image, name, price }) => (
+        {latestProducts.map(({ _id, images, name, price }) => (
           <div key={_id}>
-            <ProductItem id={_id} image={image} name={name} price={price} />
+            <ProductItem id={_id} images={images} name={name} price={price} />
           </div>
         ))}
       </div>

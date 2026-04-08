@@ -21,7 +21,7 @@ export default function Hero() {
       </div>
 
       {/* Hero Right Side */}
-      <img src={assets.hero_img} alt="" className="w-full sm:w-1/2" />
+      <img src={assets.hero_img_2} alt="" className="w-full sm:w-1/2" />
     </div>
   );
 }
