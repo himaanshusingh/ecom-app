@@ -19,6 +19,7 @@ export default function ShopContextProvider({ children }) {
     getProductsData();
     if (!token && localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
+      getUserCart(localStorage.getItem("token"));
     }
   }, []);
 
@@ -38,11 +39,12 @@ export default function ShopContextProvider({ children }) {
 
     if (token) {
       try {
-        await axios.post(
+        const res = await axios.post(
           "http://localhost:3000/api/cart/add",
           { itemId, size },
-          { headers: token },
+          { headers: { token } },
         );
+        toast.success(res.data.message);
       } catch (err) {
         console.log(err);
         toast.error(err.message);
@@ -68,22 +70,36 @@ export default function ShopContextProvider({ children }) {
     let cartData = structuredClone(cartItems);
     cartData[itemId][size] = quantity;
     setCartItems(cartData);
+
+    if (token) {
+      try {
+        await axios.post(
+          "http://localhost:3000/api/cart/update",
+          { itemId, size, quantity },
+          { headers: { token } },
+        );
+      } catch (err) {
+        console.log(err);
+        toast.error(err.message);
+      }
+    }
   }
 
   function getCartAmount() {
     let totalAmount = 0;
-    for (const items in cartItems) {
-      let itemInfo = products.find((product) => product._id === items);
-      for (const item in cartItems[items]) {
-        try {
-          if (cartItems[items][item] > 0) {
-            totalAmount += itemInfo.price * cartItems[items][item];
-          }
-        } catch (err) {
-          console.log(err);
-        }
-      }
-    }
+    // for (const items in cartItems) {
+    //   let itemInfo = products.find((product) => product._id === items.id);
+    //   console.log(itemInfo);
+    //   for (const item in cartItems[items]) {
+    //     try {
+    //       if (cartItems[items][item] > 0) {
+    //         totalAmount += itemInfo.price * cartItems[items][item];
+    //       }
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
+    //   }
+    // }
     return totalAmount;
   }
 
@@ -93,6 +109,20 @@ export default function ShopContextProvider({ children }) {
       setProducts(res.data.products);
       toast.error(res.data.message);
     } catch (err) {
+      toast.error(err.message);
+    }
+  }
+
+  async function getUserCart(token) {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/cart/get",
+        {},
+        { headers: { token } },
+      );
+      setCartItems(res.data.cartData);
+    } catch (err) {
+      console.log(err);
       toast.error(err.message);
     }
   }

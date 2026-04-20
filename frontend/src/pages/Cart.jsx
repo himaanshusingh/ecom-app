@@ -40,41 +40,44 @@ export default function Cart() {
       </div>
       <div>
         {cartData.map((item) => {
-          const { _id, size, quantity } = item;
-          const productData = products.find((product) => product._id === _id);
-          const { name, price, images } = productData;
-
+          const productData = products.find(
+            (product) => product._id === item._id,
+          );
           return (
-            <div
-              key={_id}
-              className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
-            >
-              <div className="flex items-start gap-6">
-                <img src={images[0]} className="w-16 sm:w-20" />
-                <div>
-                  <p className="text-xs sm:text-lg font-medium">{name}</p>
-                  <div className="flex items-center mt-2 flex-row gap-5">
-                    <p>{`${currency} ${price}`}</p>
-                    <p className="w-10 px-2 sm:px-3 sm:py-1 border bg-slate-50 text-center">
-                      {size}
+            productData && (
+              <div
+                key={item._id + item.size}
+                className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+              >
+                <div className="flex items-start gap-6">
+                  <img src={productData.images[0]} className="w-16 sm:w-20" />
+                  <div>
+                    <p className="text-xs sm:text-lg font-medium">
+                      {productData.name}
                     </p>
+                    <div className="flex items-center mt-2 flex-row gap-5">
+                      <p>{`${currency} ${productData.price}`}</p>
+                      <p className="w-10 px-2 sm:px-3 sm:py-1 border bg-slate-50 text-center">
+                        {item.size}
+                      </p>
+                    </div>
                   </div>
                 </div>
+                <input
+                  min={1}
+                  type="number"
+                  defaultValue={item.quantity}
+                  onChange={(e) => handleChange(e, item._id, item.size)}
+                  className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
+                />
+                <img
+                  alt=""
+                  src={assets.bin_icon}
+                  className="w-4 mr-4 sm:w-5 cursor-pointer"
+                  onClick={() => updateQuantity(item._id, item.size, 0)}
+                />
               </div>
-              <input
-                min={1}
-                type="number"
-                defaultValue={quantity}
-                onChange={(e) => handleChange(e, _id, size)}
-                className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
-              />
-              <img
-                alt=""
-                src={assets.bin_icon}
-                className="w-4 mr-4 sm:w-5 cursor-pointer"
-                onClick={() => updateQuantity(_id, size, 0)}
-              />
-            </div>
+            )
           );
         })}
       </div>

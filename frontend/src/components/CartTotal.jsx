@@ -4,6 +4,7 @@ import Title from "./Title";
 
 export default function CartTotal() {
   const { currency, deliveryFee, getCartAmount } = useContext(ShopContext);
+  getCartAmount();
 
   return (
     <div className="w-full">
