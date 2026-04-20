@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
 import Title from "../components/Title";
 import { useNavigate } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
 
 export default function PlaceOrder() {
   const [method, setMethod] = useState("cod");
@@ -19,29 +20,53 @@ export default function PlaceOrder() {
   });
 
   const navigate = useNavigate();
+  const {
+    token,
+    backendUrl,
+    cartItems,
+    setCartItems,
+    getCartAmount,
+    products,
+    deliveryFee,
+  } = useContext(ShopContext);
 
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((data) => ({ ...data, [name]: value }));
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    
+  }
+
   return (
-    <div className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh]">
+    <form className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh]">
       {/* Left Section */}
-      <form className="flex flex-col gap-4 w-full sm:max-w-120">
+      <div className="flex flex-col gap-4 w-full sm:max-w-120">
         <div className="text-xl sm:text-2xl my-3">
           <Title text1="DELIVERY" text2="INFORMATION" />
         </div>
 
         <div className="flex gap-3">
           {[
-            { name: "firstName", content: "First Name" },
-            { name: "lastName", content: "Last Name" },
-          ].map(({ name, content }) => (
+            {
+              content: "First Name",
+              name: "firstName",
+              value: formData.firstName,
+            },
+            {
+              content: "Last Name",
+              name: "lastName",
+              value: formData.lastName,
+            },
+          ].map(({ name, content, value }) => (
             <input
+              required
               type="text"
               name={name}
               key={content}
+              value={value}
               placeholder={content}
               onChange={handleChange}
               className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
@@ -50,12 +75,24 @@ export default function PlaceOrder() {
         </div>
 
         {[
-          { type: "email", placeholder: "Email address", name: "email" },
-          { type: "text", placeholder: "Street", name: "street" },
-        ].map(({ type, placeholder, name }) => (
+          {
+            type: "email",
+            placeholder: "Email address",
+            name: "email",
+            value: formData.email,
+          },
+          {
+            type: "text",
+            placeholder: "Street",
+            name: "street",
+            value: formData.street,
+          },
+        ].map(({ type, placeholder, name, value }) => (
           <input
+            required
             type={type}
             name={name}
+            value={value}
             key={placeholder}
             onChange={handleChange}
             placeholder={placeholder}
@@ -65,12 +102,14 @@ export default function PlaceOrder() {
 
         <div className="flex gap-3">
           {[
-            { name: "city", content: "City" },
-            { name: "state", content: "State" },
-          ].map(({ name, content }) => (
+            { name: "city", content: "City", value: formData.city },
+            { name: "state", content: "State", value: formData.state },
+          ].map(({ name, content, value }) => (
             <input
+              required
               type="text"
               name={name}
+              value={value}
               key={content}
               placeholder={content}
               onChange={handleChange}
@@ -81,12 +120,24 @@ export default function PlaceOrder() {
 
         <div className="flex gap-3">
           {[
-            { type: "number", placeholder: "ZipCode", name: "zipcode" },
-            { type: "text", placeholder: "Country", name: "country" },
-          ].map(({ type, placeholder, name }) => (
+            {
+              type: "number",
+              placeholder: "ZipCode",
+              name: "zipcode",
+              value: formData.zipcode,
+            },
+            {
+              type: "text",
+              placeholder: "Country",
+              name: "country",
+              value: formData.country,
+            },
+          ].map(({ type, placeholder, name, value }) => (
             <input
+              required
               type={type}
               name={name}
+              value={value}
               key={placeholder}
               onChange={handleChange}
               placeholder={placeholder}
@@ -98,11 +149,12 @@ export default function PlaceOrder() {
         <input
           type="number"
           name="phone"
+          value={formData.phone}
           placeholder="Phone"
           onChange={handleChange}
           className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
         />
-      </form>
+      </div>
 
       {/* Right Side Section */}
       <div className="mt-8">
@@ -143,6 +195,6 @@ export default function PlaceOrder() {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

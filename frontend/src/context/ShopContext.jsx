@@ -87,19 +87,18 @@ export default function ShopContextProvider({ children }) {
 
   function getCartAmount() {
     let totalAmount = 0;
-    // for (const items in cartItems) {
-    //   let itemInfo = products.find((product) => product._id === items.id);
-    //   console.log(itemInfo);
-    //   for (const item in cartItems[items]) {
-    //     try {
-    //       if (cartItems[items][item] > 0) {
-    //         totalAmount += itemInfo.price * cartItems[items][item];
-    //       }
-    //     } catch (err) {
-    //       console.log(err);
-    //     }
-    //   }
-    // }
+    for (const items in cartItems) {
+      for (const item in cartItems[items]) {
+        try {
+          let itemInfo = products.find((product) => product._id === items);
+          if (cartItems[items][item] > 0) {
+            totalAmount += itemInfo.price * cartItems[items][item];
+          }
+        } catch (err) {
+          // console.log(err);
+        }
+      }
+    }
     return totalAmount;
   }
 
