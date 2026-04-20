@@ -1,5 +1,26 @@
+import userModel from "../models/userModel.js";
+
 // Place orders from cash
-export async function placeOrder(req, res) {}
+export async function placeOrder(req, res) {
+  try {
+    const { userId, items, amount, address } = req.body;
+    const orderData = {
+      userId,
+      items,
+      address,
+      amount,
+      paymentMethod: "COD",
+      payment: false,
+      date: Date.now(),
+    };
+    const order = await orderModel.create(orderData);
+    await userModel.findByIdAndUpdate(userId, { cartData: {} });
+    res.json({ success: true, message: "Order Placed" });
+  } catch (err) {
+    console.log(err);
+    res.json({ success: false, message: err.message });
+  }
+}
 
 // Place orders from stripe
 export async function placeOrderStripe(req, res) {}

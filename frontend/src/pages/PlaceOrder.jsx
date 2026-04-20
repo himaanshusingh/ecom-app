@@ -6,45 +6,74 @@ import { useNavigate } from "react-router-dom";
 
 export default function PlaceOrder() {
   const [method, setMethod] = useState("cod");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    country: "",
+    phone: "",
+  });
+
   const navigate = useNavigate();
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData((data) => ({ ...data, [name]: value }));
+  }
 
   return (
     <div className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh]">
       {/* Left Section */}
-      <div className="flex flex-col gap-4 w-full sm:max-w-120">
+      <form className="flex flex-col gap-4 w-full sm:max-w-120">
         <div className="text-xl sm:text-2xl my-3">
           <Title text1="DELIVERY" text2="INFORMATION" />
         </div>
 
         <div className="flex gap-3">
-          {["First Name", "Last Name"].map((item) => (
+          {[
+            { name: "firstName", content: "First Name" },
+            { name: "lastName", content: "Last Name" },
+          ].map(({ name, content }) => (
             <input
               type="text"
-              key={item}
-              placeholder={item}
+              name={name}
+              key={content}
+              placeholder={content}
+              onChange={handleChange}
               className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
             />
           ))}
         </div>
 
         {[
-          { type: "email", placeholder: "Email address" },
-          { type: "text", placeholder: "Street" },
-        ].map(({ type, placeholder }) => (
+          { type: "email", placeholder: "Email address", name: "email" },
+          { type: "text", placeholder: "Street", name: "street" },
+        ].map(({ type, placeholder, name }) => (
           <input
             type={type}
+            name={name}
             key={placeholder}
+            onChange={handleChange}
             placeholder={placeholder}
             className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
           />
         ))}
 
         <div className="flex gap-3">
-          {["City", "State"].map((item) => (
+          {[
+            { name: "city", content: "City" },
+            { name: "state", content: "State" },
+          ].map(({ name, content }) => (
             <input
               type="text"
-              key={item}
-              placeholder={item}
+              name={name}
+              key={content}
+              placeholder={content}
+              onChange={handleChange}
               className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
             />
           ))}
@@ -52,12 +81,14 @@ export default function PlaceOrder() {
 
         <div className="flex gap-3">
           {[
-            { type: "number", placeholder: "ZipCode" },
-            { type: "text", placeholder: "Country" },
-          ].map(({ type, placeholder }) => (
+            { type: "number", placeholder: "ZipCode", name: "zipcode" },
+            { type: "text", placeholder: "Country", name: "country" },
+          ].map(({ type, placeholder, name }) => (
             <input
               type={type}
+              name={name}
               key={placeholder}
+              onChange={handleChange}
               placeholder={placeholder}
               className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
             />
@@ -66,10 +97,12 @@ export default function PlaceOrder() {
 
         <input
           type="number"
+          name="phone"
           placeholder="Phone"
+          onChange={handleChange}
           className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
         />
-      </div>
+      </form>
 
       {/* Right Side Section */}
       <div className="mt-8">
