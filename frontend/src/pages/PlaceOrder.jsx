@@ -56,6 +56,19 @@ export default function PlaceOrder() {
             navigate("/orders");
           } else toast.error(res.data.message);
           break;
+        case "stripe":
+          const resStripe = await axios.post(
+            `${backendUrl}api/order/stripe`,
+            orderData,
+            { headers: { token } },
+          );
+          if (resStripe.data.success) {
+            const { session_url } = resStripe.data;
+            window.location.replace(session_url);
+          } else {
+            toast.error(resStripe.data.message);
+          }
+          break;
       }
     } catch (err) {
       console.log(err);
