@@ -40,7 +40,7 @@ export default function ShopContextProvider({ children }) {
     if (token) {
       try {
         const res = await axios.post(
-          "http://localhost:3000/api/cart/add",
+          `${backendUrl}api/cart/add`,
           { itemId, size },
           { headers: { token } },
         );
@@ -74,7 +74,7 @@ export default function ShopContextProvider({ children }) {
     if (token) {
       try {
         await axios.post(
-          "http://localhost:3000/api/cart/update",
+          `${backendUrl}api/cart/update`,
           { itemId, size, quantity },
           { headers: { token } },
         );
@@ -104,7 +104,7 @@ export default function ShopContextProvider({ children }) {
 
   async function getProductsData() {
     try {
-      const res = await axios.get("http://localhost:3000/api/product/list");
+      const res = await axios.get(`${backendUrl}api/product/list`);
       setProducts(res.data.products);
       toast.error(res.data.message);
     } catch (err) {
@@ -115,7 +115,7 @@ export default function ShopContextProvider({ children }) {
   async function getUserCart(token) {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/cart/get",
+        `${backendUrl}api/cart/get`,
         {},
         { headers: { token } },
       );
@@ -126,7 +126,7 @@ export default function ShopContextProvider({ children }) {
     }
   }
 
-  const value = { products, currency, deliveryFee, search, setSearch, showSearch, setShowSearch, cartItems, addToCart, getCartCount, updateQuantity, getCartAmount, backendUrl, token, setToken }; // prettier-ignore
+  const value = { products, currency, deliveryFee, search, setSearch, showSearch, setShowSearch, cartItems, setCartItems, addToCart, getCartCount, updateQuantity, getCartAmount, backendUrl, token, setToken }; // prettier-ignore
 
   return (
     <>

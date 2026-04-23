@@ -1,3 +1,4 @@
+import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 
 // Place orders from cash
@@ -29,7 +30,16 @@ export async function placeOrderStripe(req, res) {}
 export async function placeOrderRazorpay(req, res) {}
 
 // User orders data for frontend
-export async function userOrders(req, res) {}
+export async function userOrders(req, res) {
+  try {
+    const { userId } = req.body;
+    const orders = await orderModel.find({ userId });
+    res.json({ success: true, orders });
+  } catch (err) {
+    console.log(err);
+    res.json({ success: false, message: err.message });
+  }
+}
 
 // All orders data for admin
 export async function allOrders(req, res) {}
