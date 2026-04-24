@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { assets } from "../assets/assets";
 
-export default function Sidebar() {
+const Sidebar = () => {
   return (
     <div className="w-[18%] min-h-[89vh] border-r-2 border-gray-300">
       <div className="flex flex-col gap-4 pt-6 pl-[20%] text-[15px]">
@@ -22,4 +22,6 @@ export default function Sidebar() {
       </div>
     </div>
   );
-}
+};
+
+export default Sidebar;

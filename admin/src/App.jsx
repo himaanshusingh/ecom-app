@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/Sidebar.jsx";
 import Add from "./pages/Add";
 import List from "./pages/List";
 import Orders from "./pages/Orders";
