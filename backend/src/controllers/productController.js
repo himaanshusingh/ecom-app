@@ -64,7 +64,7 @@ export async function singleProduct(req, res) {
 // Controller of sending all products :-
 export async function listProducts(req, res) {
   try {
-    const products = await productModel.find();
+    const products = await productModel.find({});
     res.status(200).json({ success: true, products });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
