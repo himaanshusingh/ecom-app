@@ -13,6 +13,7 @@ import PlaceOrder from "./pages/PlaceOrder";
 import Orders from "./pages/Orders";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
+import Verify from "./pages/Verify";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/place-order" element={<PlaceOrder />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/verify" element={<Verify />} />
         </Routes>
         <Footer />
       </BrowserRouter>
