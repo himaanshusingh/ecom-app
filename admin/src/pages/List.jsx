@@ -12,7 +12,7 @@ export default function List({ token }) {
 
   async function fetchList() {
     try {
-      const res = await axios.get(`${backendUrl}/api/product/list`);
+      const res = await axios.get(`${backendUrl}api/product/list`);
       setList(res.data.products);
     } catch (err) {
       toast.error(err.message);
@@ -21,7 +21,7 @@ export default function List({ token }) {
 
   async function removeProduct(id) {
     try {
-      const res = await axios.post(`${backendUrl}/api/product/remove`, { id }, { headers: { token } });
+      const res = await axios.post(`${backendUrl}api/product/remove`, { id }, { headers: { token } });
       toast.success(res.data.message);
       await fetchList();
     } catch (err) {
