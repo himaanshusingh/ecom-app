@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { toast } from "react-toastify";
 import { useSearchParams } from "react-router-dom";
@@ -11,7 +11,7 @@ const Verify = () => {
   const success = searchParams.get("success");
   const orderId = searchParams.get("orderId");
 
-  async function verifyPament() {
+  async function verifyPayment() {
     try {
       if (!token) return null;
       const res = await axios.post(
@@ -30,11 +30,11 @@ const Verify = () => {
     }
   }
 
-  return (
-    <div>
-      <h1>Verify</h1>
-    </div>
-  );
+  useEffect(() => {
+    verifyPayment();
+  }, [token]);
+
+  return <div></div>;
 };
 
 export default Verify;
