@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
-import Sidebar from "./components/Sidebar.jsx";
+// import Sidebar from "./components/Sidebar.jsx";
 import Add from "./pages/Add";
 import List from "./pages/List";
 import Orders from "./pages/Orders";
@@ -31,7 +31,7 @@ export default function App() {
             <Navbar setToken={setToken} />
             <hr className="border border-gray-300" />
             <div className="flex w-full">
-              <Sidebar />
+              {/* <Sidebar /> */}
               <Routes>
                 <Route path="/" element={<Add token={token} />} />
                 <Route path="/list" element={<List token={token} />} />
