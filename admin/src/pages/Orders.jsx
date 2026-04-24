@@ -17,7 +17,7 @@ export default function Orders({ token }) {
     try {
       const res = await axios.post(`${backendUrl}api/order/list`, {}, { headers: { token } });
       console.log(res.data)
-      if (res.data.success) setOrders(res.data.orders);
+      if (res.data.success) setOrders(res.data.orders.reverse());
       else toast.error(res.data.message);
     } catch (err) {
       toast.error(err.message);
