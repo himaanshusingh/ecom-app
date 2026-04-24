@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const PORT = process.env.PORT;
+export const PORT = process.env.PORT || 4000;
 export const MONGODB_URI = process.env.MONGODB_URI;
 export const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME;
 export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
@@ -15,7 +15,7 @@ export const RAZORPAY_SECRET = process.env.RAZORPAY_SECRET;
 export const RAZORPAY_KEY = process.env.RAZORPAY_KEY;
 
 const msg = "is not defined in the .env file";
-if (!PORT) throw new Error(`PORT ${msg}`);
+// if (!PORT) throw new Error(`PORT ${msg}`);
 if (!MONGODB_URI) throw new Error(`MONGODB_URI ${msg}`);
 if (!CLOUDINARY_NAME) throw new Error(`CLOUDINARY_NAME ${msg}`);
 if (!CLOUDINARY_API_KEY) throw new Error(`CLODUINARY_API_KEY ${msg}`);

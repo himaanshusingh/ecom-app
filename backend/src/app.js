@@ -14,9 +14,14 @@ import orderRouter from "./routes/orderRoute.js";
 
 const app = express();
 
+// Initialize connections
+connectDb();
+connectCloudinary();
+
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: "*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "token"],
@@ -30,9 +35,12 @@ app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
-app.listen(PORT, async () => {
-  await connectDb();
-  await connectCloudinary();
+export default app;
+
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
