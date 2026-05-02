@@ -2,7 +2,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { CLOUDINARY_NAME } from "./envConfig.js";
 import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from "./envConfig.js";
 
-export default async function connectCloudinary() {
+export default function connectCloudinary() {
   try {
     cloudinary.config({
       cloud_name: CLOUDINARY_NAME,
