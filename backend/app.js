@@ -4,13 +4,13 @@ import express from "express";
 import cookieParser from "cookie-parser";
 
 // Local Modules :-
-import { PORT } from "./config/envConfig.js";
-import connectDb from "./config/mongodb.js";
-import connectCloudinary from "./config/cloudinary.js";
-import userRouter from "./routes/userRoute.js";
-import productRouter from "./routes/productRoute.js";
-import cartRouter from "./routes/cartRoute.js";
-import orderRouter from "./routes/orderRoute.js";
+import { PORT } from "./src/config/envConfig.js";
+import connectDb from "./src/config/mongodb.js";
+import connectCloudinary from "./src/config/cloudinary.js";
+import userRouter from "./src/routes/userRoute.js";
+import productRouter from "./src/routes/productRoute.js";
+import cartRouter from "./src/routes/cartRoute.js";
+import orderRouter from "./src/routes/orderRoute.js";
 
 const app = express();
 
