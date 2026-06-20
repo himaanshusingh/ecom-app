@@ -11,5 +11,5 @@ const orderSchema = new mongoose.Schema({
   date: { type: Number, required: true },
 });
 
-const orderModel = mongoose.model("orders", orderSchema);
-export default orderModel;
+const Order = mongoose.model("Order", orderSchema);
+export default Order;
