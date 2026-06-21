@@ -1,12 +1,13 @@
 {
-  "name": "backend",
+  "name": "ecom-app",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "backend/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "build": "npm install && npm install --prefix frontend --include=dev && npm run build --prefix frontend",
+    "dev": "nodemon backend/app.js",
+    "start": "node backend/app.js"
   },
   "keywords": [],
   "author": "",
