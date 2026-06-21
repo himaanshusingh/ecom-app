@@ -19,17 +19,19 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      if (currentState === "Sign Up") {
+      if (currentState === "Signup") {
         const res = await axios.post(`${backendUrl}api/user/register`, info);
         if (res.data.success) {
           setToken(res.data.token);
           localStorage.setItem("token", res.data.token);
+          toast.success("Loggedin successfully");
         } else toast.error(res.data.message);
       } else {
         const res = await axios.post(`${backendUrl}api/user/login`, { email, password }); // prettier-ignore
         if (res.data.success) {
           setToken(res.data.token);
           localStorage.setItem("token", res.data.token);
+          toast.success("Loggedin successfully");
         } else toast.error(res.data.message);
       }
     } catch (err) {
@@ -74,7 +76,7 @@ export default function Login() {
       <div className="w-full flex justify-between text-sm mt-2">
         <p className="cursor-pointer">Forgot your password</p>
         {currentState === "Login" ? (
-          <p onClick={() => setCurrentState("Signup")} className="cursor-pointer">Create Account</p>
+          <p onClick={() => setCurrentState("Signup") || console.log('signup')} className="cursor-pointer">Create Account</p>
         ) : (
           <p onClick={() => setCurrentState("Login")} className="cursor-pointer">Login Here</p>
         )}
