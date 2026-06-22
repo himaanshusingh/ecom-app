@@ -12,6 +12,7 @@ const navListItems = [
 
 export default function Navbar() {
   const [visible, setVisible] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { setShowSearch, getCartCount, token, setToken, setCartItems } =
     useContext(ShopContext);
   const navigate = useNavigate();
@@ -49,29 +50,38 @@ export default function Navbar() {
 
         <div className="group relative">
           <img
-            onClick={() => (token ? null : navigate("/login"))}
+            onClick={() => (token ? setDropdownOpen((prev) => !prev) : navigate("/login"))}
             src={assets.profile_icon}
             className="w-5 cursor-pointer"
           />
 
           {/* Dropdown Menu */}
           {token && (
-            <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
+            <div className={`absolute dropdown-menu right-0 pt-4 z-20 ${dropdownOpen ? "block" : "hidden"} sm:group-hover:block`}>
               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
                 <p
-                  onClick={() => navigate("/profile")}
+                  onClick={() => {
+                    navigate("/profile");
+                    setDropdownOpen(false);
+                  }}
                   className="cursor-pointer hover:text-black"
                 >
                   My Profile
                 </p>
                 <p
-                  onClick={() => navigate("/orders")}
+                  onClick={() => {
+                    navigate("/orders");
+                    setDropdownOpen(false);
+                  }}
                   className="cursor-pointer hover:text-black"
                 >
                   Orders
                 </p>
                 <p
-                  onClick={handleLogout}
+                  onClick={() => {
+                    handleLogout();
+                    setDropdownOpen(false);
+                  }}
                   className="cursor-pointer hover:text-black"
                 >
                   Logout
