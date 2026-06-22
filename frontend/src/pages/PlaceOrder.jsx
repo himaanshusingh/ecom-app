@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { assets } from "../assets/assets";
@@ -13,6 +13,40 @@ export default function PlaceOrder() {
 
   const navigate = useNavigate();
   const { token, backendUrl, cartItems, setCartItems, getCartAmount, products, deliveryFee } = useContext(ShopContext); // prettier-ignore
+
+  useEffect(() => {
+    async function fetchSavedAddress() {
+      if (!token) return;
+      try {
+        const res = await axios.get(`${backendUrl}api/user/profile`, {
+          headers: { token },
+        });
+        if (res.data.success && res.data.user) {
+          const { email, address } = res.data.user;
+          if (address && Object.keys(address).length > 0) {
+            setFormData({
+              firstName: address.firstName || "",
+              lastName: address.lastName || "",
+              email: email || "",
+              street: address.street || "",
+              city: address.city || "",
+              state: address.state || "",
+              zipcode: address.zipcode || "",
+              country: address.country || "",
+              phone: address.phone || "",
+            });
+          } else {
+            // Pre-fill email even if there's no saved address yet
+            setFormData((prev) => ({ ...prev, email: email || "" }));
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error(err.response?.data?.message || err.message || "Failed to load saved delivery address.");
+      }
+    }
+    fetchSavedAddress();
+  }, [token, backendUrl]);
 
   function handleChange(e) {
     const { name, value } = e.target;

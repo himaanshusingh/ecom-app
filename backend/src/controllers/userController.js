@@ -93,3 +93,38 @@ export async function loginAdmin(req, res) {
     res.status(400).json({ success: false, message: err.message });
   }
 }
+
+// Controller to get user profile details :-
+export async function getUserProfile(req, res) {
+  try {
+    const { userId } = req.body;
+    const user = await userModel.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    res.status(200).json({ success: true, user });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+}
+
+// Controller to update user profile :-
+export async function updateUserProfile(req, res) {
+  try {
+    const { userId, name, address } = req.body;
+
+    const user = await userModel.findByIdAndUpdate(
+      userId,
+      { name, address },
+      { new: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.status(200).json({ success: true, user, message: "Profile updated successfully" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+}

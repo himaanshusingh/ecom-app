@@ -8,6 +8,7 @@ export default async function userAuth(req, res, next) {
   }
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
+    req.body = req.body || {};
     req.body.userId = decoded.id;
     next();
   } catch (err) {
