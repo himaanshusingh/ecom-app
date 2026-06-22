@@ -42,6 +42,12 @@ export default function Navbar() {
       </ul>
 
       <div className="flex items-center gap-6">
+        <a
+          href="/admin"
+          className="hidden sm:block text-xs px-3 py-1.5 border border-gray-700 rounded-sm hover:bg-black hover:text-white transition-all duration-300"
+        >
+          ADMIN PANEL
+        </a>
         <img
           src={assets.search_icon}
           className="w-5 cursor-pointer"
@@ -127,6 +133,13 @@ export default function Navbar() {
               {name}
             </NavLink>
           ))}
+          <a
+            href="/admin"
+            className="py-2 pl-6 border-b-2 text-rose-500 font-semibold bg-rose-50/30 hover:bg-rose-100/50 transition-colors"
+            onClick={() => setVisible(false)}
+          >
+            ADMIN PANEL
+          </a>
         </div>
       </div>
     </div>

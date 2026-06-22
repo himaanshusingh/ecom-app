@@ -42,7 +42,16 @@ app.use("/api/order", orderRouter);
 if (NODE_ENV === "production") {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
+  
+  app.use("/admin", express.static(path.join(__dirname, "../../admin/dist")));
   app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+  
+  app.get(/^\/admin(?!.*\.\w+$).*$/, (req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, "../../admin", "dist", "index.html"),
+    );
+  });
+
   app.get(/.*/, (req, res) => {
     res.sendFile(
       path.resolve(__dirname, "../../frontend", "dist", "index.html"),

@@ -12,7 +12,7 @@ export default function PlaceOrder() {
   const [formData, setFormData] = useState({ firstName: "", lastName: "", email: "", street: "", city: "", state: "", zipcode: "", country: "", phone: "" }); // prettier-ignore
 
   const navigate = useNavigate();
-  const { token, backendUrl, cartItems, setCartItems, getCartAmount, products, deliveryFee } = useContext(ShopContext); // prettier-ignore
+  const { token, backendUrl, cartItems, setCartItems, getCartAmount, products, deliveryFee, getCartCount } = useContext(ShopContext); // prettier-ignore
 
   useEffect(() => {
     async function fetchSavedAddress() {
@@ -101,6 +101,12 @@ export default function PlaceOrder() {
             }
           }
         }
+      }
+
+      if (orderItems.length === 0) {
+        toast.error("Your cart is empty. Please add items to your cart before checking out.");
+        navigate("/cart");
+        return;
       }
 
       let orderData = {
@@ -297,7 +303,12 @@ export default function PlaceOrder() {
           </div>
 
           <div className="w-full text-end mt-8">
-            <button className="bg-black text-white px-16 py-3 text-sm cursor-pointer">
+            <button
+              disabled={getCartCount() === 0}
+              className={`bg-black text-white px-16 py-3 text-sm cursor-pointer transition-opacity duration-200 ${
+                getCartCount() === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800"
+              }`}
+            >
               PLACE ORDER
             </button>
           </div>

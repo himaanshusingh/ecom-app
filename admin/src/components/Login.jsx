@@ -9,10 +9,11 @@ export default function Login({ setToken }) {
   async function handleSubmit(e) {
     try {
       e.preventDefault();
-      const res = await axios.post(backendUrl + "/api/user/admin", loginInfo);
+      const res = await axios.post(`${backendUrl}api/user/admin`, loginInfo);
       if (res.data.success) setToken(res.data.token);
       else toast.error(res.data.message);
     } catch (err) {
+      console.log(err);
       toast.error(err.response.data.message);
     }
   }
@@ -41,10 +42,18 @@ export default function Login({ setToken }) {
               />
             </div>
           ))}
-          <button className="mt-2 w-full py-2 px-4 rounded-md text-white bg-black cursor-pointer">
+          <button className="mt-2 w-full py-2 px-4 rounded-md text-white bg-black cursor-pointer hover:bg-gray-800 transition-colors duration-200">
             Login
           </button>
         </form>
+        <div className="mt-4 text-center">
+          <a
+            href="/"
+            className="text-xs text-gray-500 hover:text-black hover:underline transition-colors duration-200 inline-flex items-center gap-1 font-medium"
+          >
+            ← Visit Storefront
+          </a>
+        </div>
       </div>
     </div>
   );
