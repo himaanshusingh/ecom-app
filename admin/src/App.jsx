@@ -9,7 +9,7 @@ import Add from "./pages/Add";
 import List from "./pages/List";
 import Orders from "./pages/Orders";
 
-export const currency = "$";
+export const currency = "₹";
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env");
 
@@ -31,7 +31,7 @@ export default function App() {
             <Navbar setToken={setToken} />
             <hr className="border border-gray-300" />
             <div className="flex w-full">
-              {/* <Sidebar /> */}
+              <Sidebar />
               <Routes>
                 <Route path="/" element={<Add token={token} />} />
                 <Route path="/list" element={<List token={token} />} />
