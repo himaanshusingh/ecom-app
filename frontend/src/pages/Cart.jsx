@@ -87,8 +87,11 @@ export default function Cart() {
           <CartTotal />
           <div className="w-full text-end">
             <button
+              disabled={cartData.length === 0}
               onClick={() => navigate("/place-order")}
-              className="bg-black text-white text-sm my-8 px-8 py-3 cursor-pointer"
+              className={`bg-black text-white text-sm my-8 px-8 py-3 transition-opacity duration-200 ${
+                cartData.length === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800 cursor-pointer"
+              }`}
             >
               PROCEED TO CHECKOUT
             </button>

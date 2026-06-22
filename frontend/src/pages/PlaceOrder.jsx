@@ -303,12 +303,7 @@ export default function PlaceOrder() {
           </div>
 
           <div className="w-full text-end mt-8">
-            <button
-              disabled={getCartCount() === 0}
-              className={`bg-black text-white px-16 py-3 text-sm cursor-pointer transition-opacity duration-200 ${
-                getCartCount() === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800"
-              }`}
-            >
+            <button className="bg-black text-white px-16 py-3 text-sm cursor-pointer hover:bg-gray-800 transition-colors">
               PLACE ORDER
             </button>
           </div>
