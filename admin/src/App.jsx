@@ -2,19 +2,15 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Navbar from "./components/Navbar.jsx";
-import Login from "./components/Login.jsx";
-import Sidebar from "./components/Sidebar.jsx";
-import Add from "./pages/Add.jsx";
-import List from "./pages/List.jsx";
-import Orders from "./pages/Orders.jsx";
+import Navbar from "./components/Navbar";
+import Login from "./components/Login";
+import Sidebar from "./components/Sidebar";
+import Add from "./pages/Add";
+import List from "./pages/List";
+import Orders from "./pages/Orders";
 
 export const currency = "₹";
-export const backendUrl = import.meta.env.VITE_BACKEND_URL || (
-  typeof window !== "undefined"
-    ? (window.location.port === "5174" ? "http://localhost:3000/" : window.location.origin + "/")
-    : "http://localhost:3000/"
-);
+export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
