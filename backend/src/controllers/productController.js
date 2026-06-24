@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import productModel from "../models/productModel.js";
+import Product from "../models/productModel.js";
 
 // Controller of adding a product :-
 export async function addProduct(req, res) {
@@ -34,7 +34,7 @@ export async function addProduct(req, res) {
       date: Date.now(),
     };
 
-    const product = await productModel.create(productData);
+    const product = await Product.create(productData);
     res.status(200).json({ success: true, message: "Product added", product });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
@@ -44,7 +44,7 @@ export async function addProduct(req, res) {
 // Controller of removing a product :-
 export async function removeProduct(req, res) {
   try {
-    await productModel.findByIdAndDelete(req.body.id);
+    await Product.findByIdAndDelete(req.body.id);
     res.status(200).json({ success: true, message: "Product removed" });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
@@ -54,7 +54,7 @@ export async function removeProduct(req, res) {
 // Controller of sending a single product :-
 export async function singleProduct(req, res) {
   try {
-    const product = await productModel.findById(req.body.id);
+    const product = await Product.findById(req.body.id);
     res.status(200).json({ success: true, product });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
@@ -64,7 +64,7 @@ export async function singleProduct(req, res) {
 // Controller of sending all products :-
 export async function listProducts(req, res) {
   try {
-    const products = await productModel.find({});
+    const products = await Product.find({});
     res.status(200).json({ success: true, products });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });

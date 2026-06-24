@@ -1,9 +1,9 @@
-import userModel from "../models/userModel.js";
+import User from "../models/userModel.js";
 
 export async function addToCart(req, res) {
   try {
     const { userId, itemId, size } = req.body;
-    const userData = await userModel.findById(userId);
+    const userData = await User.findById(userId);
     const cartData = await userData.cartData;
 
     if (cartData[itemId]) {
@@ -14,7 +14,7 @@ export async function addToCart(req, res) {
       cartData[itemId][size] = 1;
     }
 
-    await userModel.findByIdAndUpdate(userId, { cartData });
+    await User.findByIdAndUpdate(userId, { cartData });
     res.status(200).json({ success: true, message: "Add To Cart" });
   } catch (err) {
     console.log(err);
@@ -25,10 +25,10 @@ export async function addToCart(req, res) {
 export async function updateCart(req, res) {
   try {
     const { userId, itemId, size, quantity } = req.body;
-    const userData = await userModel.findById(userId);
+    const userData = await User.findById(userId);
     const cartData = await userData.cartData;
     cartData[itemId][size] = quantity;
-    await userModel.findByIdAndUpdate(userId, { cartData });
+    await User.findByIdAndUpdate(userId, { cartData });
     res.status(200).json({ success: true, message: "Added to Cart" });
   } catch (err) {
     console.log(err);
@@ -39,7 +39,7 @@ export async function updateCart(req, res) {
 export async function getUserCart(req, res) {
   try {
     const { userId } = req.body;
-    const userData = await userModel.findById(userId);
+    const userData = await User.findById(userId);
     const cartData = userData.cartData;
     res.status(200).json({ success: true, cartData });
   } catch (err) {

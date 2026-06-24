@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 // Local Modules :-
-import userModel from "../models/userModel.js";
+import User from "../models/userModel.js";
 import { JWT_SECRET } from "../config/envConfig.js";
 import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../config/envConfig.js";
 
@@ -14,7 +14,7 @@ export async function registerUser(req, res) {
     const { name, email, password } = req.body;
 
     // Checking if user already exists :-
-    const isExists = await userModel.findOne({ email });
+    const isExists = await User.findOne({ email });
     if (isExists) {
       return res.status(401).json({
         success: false,
@@ -41,7 +41,7 @@ export async function registerUser(req, res) {
     // Hashing user password :-
     const hPassword = await bcrypt.hash(password, 10); // "saltRounds"
 
-    const user = await userModel.create({ name, email, password: hPassword });
+    const user = await User.create({ name, email, password: hPassword });
     const token = jwt.sign({ id: user._id }, JWT_SECRET);
 
     res.status(201).json({ success: true, token });
@@ -55,7 +55,7 @@ export async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
 
-    const user = await userModel.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -98,9 +98,11 @@ export async function loginAdmin(req, res) {
 export async function getUserProfile(req, res) {
   try {
     const { userId } = req.body;
-    const user = await userModel.findById(userId).select("-password");
+    const user = await User.findById(userId).select("-password");
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
     res.status(200).json({ success: true, user });
   } catch (err) {
@@ -113,17 +115,21 @@ export async function updateUserProfile(req, res) {
   try {
     const { userId, name, address } = req.body;
 
-    const user = await userModel.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       userId,
       { name, address },
-      { new: true }
+      { new: true },
     ).select("-password");
 
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
-    res.status(200).json({ success: true, user, message: "Profile updated successfully" });
+    res
+      .status(200)
+      .json({ success: true, user, message: "Profile updated successfully" });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
