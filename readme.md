@@ -1,10 +1,8 @@
-## Ecommerce App: 
-### A Seamless Shopping Experience Powered by the MERN Stack, Redux Toolkit, and Material UI
+## Ecommerce App:
+
+### It is a full-stack application designed to transform your online shopping experience. Built with the MERN stack (MongoDB, Express.js, React, Node.js), it leverages Redux Toolkit for efficient state management and Material UI for a sleek, user-friendly interface. This project offers a robust platform for both users and admins, packed with essential features for a seamless experience.
 
 ### Live Demo :- [https://ecom.app](https://ecom-app-dsyu.onrender.com/)
-### Admin Panel :- [https://ecom-admin.app](https://ecom-admin-nine-cyan.vercel.app/)
-
-**MERN Ecommerce** is a full-stack application designed to transform your online shopping experience. Built with the MERN stack (MongoDB, Express.js, React, Node.js), it leverages Redux Toolkit for efficient state management and Material UI for a sleek, user-friendly interface. This project offers a robust platform for both users and admins, packed with essential features for a seamless experience.
 
 ![ecommerce-homepage](https://github.com/himaanshusingh/ecom-app/blob/main/frontend/public/home_page.jpg)
 ![ecommerce-collectionpage](https://github.com/himaanshusingh/ecom-app/blob/main/frontend/public/collection_page.jpg)
