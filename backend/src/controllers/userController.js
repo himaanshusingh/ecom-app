@@ -5,8 +5,8 @@ import jwt from "jsonwebtoken";
 
 // Local Modules :-
 import User from "../models/userModel.js";
-import { JWT_SECRET } from "../config/envConfig.js";
-import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../config/envConfig.js";
+import { JWT_SECRET } from "../configs/envConfig.js";
+import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../configs/envConfig.js";
 
 // Controller of user Registration :-
 export async function registerUser(req, res) {

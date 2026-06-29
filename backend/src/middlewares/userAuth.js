@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/envConfig.js";
+import { JWT_SECRET } from "../configs/envConfig.js";
 
 export default async function userAuth(req, res, next) {
   const { token } = req.headers;

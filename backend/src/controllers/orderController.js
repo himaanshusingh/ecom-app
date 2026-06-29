@@ -2,8 +2,8 @@ import Stripe from "stripe";
 import razorpay from "razorpay";
 import Order from "../models/orderModel.js";
 import User from "../models/userModel.js";
-import { STRIPE_SECRET } from "../config/envConfig.js";
-import { RAZORPAY_KEY, RAZORPAY_SECRET } from "../config/envConfig.js";
+import { STRIPE_SECRET } from "../configs/envConfig.js";
+import { RAZORPAY_KEY, RAZORPAY_SECRET } from "../configs/envConfig.js";
 
 const currency = "inr";
 const deliveryCharge = 10;

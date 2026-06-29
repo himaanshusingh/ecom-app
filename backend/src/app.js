@@ -8,9 +8,9 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 // Local Modules :-
-import { NODE_ENV, PORT } from "./config/envConfig.js";
-import connectDb from "./config/mongodb.js";
-import connectCloudinary from "./config/cloudinary.js";
+import { NODE_ENV, PORT } from "./configs/envConfig.js";
+import connectDb from "./configs/mongodb.js";
+import connectCloudinary from "./configs/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
@@ -42,10 +42,13 @@ app.use("/api/order", orderRouter);
 if (NODE_ENV === "production") {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  
-  app.use("/admin", express.static(path.join(__dirname, "../../frontend/admin-dist")));
+
+  app.use(
+    "/admin",
+    express.static(path.join(__dirname, "../../frontend/admin-dist")),
+  );
   app.use(express.static(path.join(__dirname, "../../frontend/dist")));
-  
+
   app.get(/^\/admin(?!.*\.\w+$).*$/, (req, res) => {
     res.sendFile(
       path.resolve(__dirname, "../../frontend", "admin-dist", "index.html"),

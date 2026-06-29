@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/envConfig.js";
-import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../config/envConfig.js";
+import { JWT_SECRET } from "../configs/envConfig.js";
+import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../configs/envConfig.js";
 
 export default async function adminAuth(req, res, next) {
   try {
